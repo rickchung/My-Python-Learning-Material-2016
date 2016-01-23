@@ -1,4 +1,5 @@
 .*
 *.pdf
+*.html
 my_answer.py
 datagen.py
