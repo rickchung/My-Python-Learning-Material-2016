@@ -10,7 +10,7 @@ def get_dict(csvpath):
     """ Generate dictionary object from <csvpath>
     """
     # Load csv file
-    with open(csvpath, 'r') as fin:
+    with open(csvpath, 'r', encoding='utf-8') as fin:
         csvrows = [i for i in csv.reader(fin)]
 
     # Delete the header(the first row)
