@@ -1,4 +1,4 @@
-from lib.support import get_dir_filenames, get_dict
+from lib.support import get_dir_filenames
 
 from datetime import datetime
 
