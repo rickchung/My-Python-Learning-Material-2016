@@ -64,7 +64,7 @@
 - File I/O
 - Exception
 - Module and PIP
-- This is not Python -- GitHub
+- This is not Python -- Git and GitHub
 - Exercise: How to write program with other team members? Concept and instructions
 
 # Module 3 - Python With Django: MVC and Web Application
