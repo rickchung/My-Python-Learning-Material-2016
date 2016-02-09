@@ -3,3 +3,5 @@
 *.html
 my_answer.py
 datagen.py
+*.numbers
+*/lecture/*
