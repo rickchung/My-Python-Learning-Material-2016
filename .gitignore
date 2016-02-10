@@ -5,3 +5,6 @@ my_answer.py
 datagen.py
 *.numbers
 */lecture/*
+*/__pycache__/*
+*.pyc
+module2/sphinx_example/doc/build/*
