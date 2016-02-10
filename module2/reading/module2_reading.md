@@ -925,7 +925,7 @@ sys.path.insert(0, os.path.abspath('../../src/'))
 
 再來我們要開始完成最基本的文件架構， `sphinx` 輸出的文件檔是根據在 source 資料夾中的各種 `.rst` 來建立的。
 
-首先我們打開 source/index.rst，這是 `sphinx` 預設作為首頁的檔案，在其中加入以下內容：
+我們打開 source/index.rst，這是 `sphinx` 預設作為首頁的檔案，在其中加入以下內容：
 
 ```
 Welcome to Test's documentation!
@@ -960,8 +960,8 @@ You can say something here.
 
 大概會長這樣：
 
-![sphinx ex1]()
-![sphinx ex2]()
+![sphinx ex1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/sphinx-ex1.png)
+![sphinx ex2](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/sphinx-ex2.png)
 
 最方便的地方是，你只需要在你所撰寫的類別或者方法中，插入適當的註解文字，`sphinx` 就會將這些註解文字抓出並產生文件檔，「寫程式碼的同時寫註解」，能夠減少我們很多的麻煩。
 
