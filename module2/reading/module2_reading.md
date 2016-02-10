@@ -1010,7 +1010,7 @@ class Account(object):
 
 `sphinx` 裡面有很多可以設定的細節，礙於篇幅的關係我們只能說明最基本的用法。
 
-為了產生出漂亮的說明文字，你還可以善用 `sphinx` 所用的文件語法 [reStructuredText](www.sphinx-doc.org/en/stable/rest.html) 來美化你的文件，不過這個部分就需要你自己去嘗試了 ˊ_>ˋ
+為了產生出漂亮的說明文字，你還可以善用 `sphinx` 所用的文件語法 [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) 來美化你的文件，不過這個部分就需要你自己去嘗試了 ˊ_>ˋ
 
 更多資料可以參考[shpinx 的官方教學](http://www.sphinx-doc.org/en/stable/tutorial.html)
 
