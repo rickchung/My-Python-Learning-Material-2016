@@ -345,6 +345,8 @@ if __name__ == '__main__':
 >大家還記得 module 1 problem 裡面，請大家去 `import` 一些已經寫好的函示嗎？這時候這個區塊裡面的程式碼就不會被執行，但如果你打開你 `import` 的那個 Python script，直接用 ST2 build 的話，你會看到那個區塊被執行了。
 >
 >我覺得大家只要知道他怎麼用就好了（通常可以拿來測試你的 module），但如果你想要更詳細的解釋，可以參考看看 [StackOverflow 上的討論串](http://stackoverflow.com/a/419185)。
+>
+>在下面的模組與套件的單元會再提到一次。
 
 ## b4. 封裝 Encapsulation and Data Hiding
 
@@ -559,6 +561,8 @@ int main(void) {
 
 在這一個單元裡我們會一步一步帶使用者看如何使用物件導向的方式來寫 module 1 的 exercise。
 
+建議可以先稍微瀏覽完下面的 d2 模組與套件 的單元之後再來看這一個範例，因為在範例中會用到裡面的一些概念。
+
 礙於篇幅影響，請看[這裡](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/module2_oop_example.md)
 
 ---
@@ -645,39 +649,193 @@ finally:
 https://docs.python.org/3.4/tutorial/errors.html#user-defined-exceptions
 
 參考資料：
-http://openhome.cc/Gossip/Python/TryRaise.html
-https://docs.python.org/3.4/tutorial/errors.html
+
+- [語言技術：Python Gossip 的 try...raise 介紹](http://openhome.cc/Gossip/Python/TryRaise.html)
+- [Python 官方文件內的 error 說明](https://docs.python.org/3.4/tutorial/errors.html)
 
 ---
 
-# d2. 模組的概念 Module
+# d2. 模組與套件的概念 Module and Package
 
-https://docs.python.org/3.4/tutorial/modules.html
-http://blog.eddie.com.tw/2011/10/13/python-module/
-http://www.codedata.com.tw/python/python-tutorial-the-2nd-class-3-function-module-class-package/
-http://pydoing.blogspot.tw/2011/02/python-module.html
+當你在撰寫大型的程式時，你不可能把一支程式寫的落落長，而是需要把一支程式分割成不同的部分（在物件導向下可能是不同的 class），Python 提供了一種簡便的方式讓你把程式碼分割成不同的部分，這就是模組（module）。
+
+## 模組
+
+其實在 Python 裡面每一個 script 都是一個 module，以下的範例由官方的教學文件改寫而成：
+
+檔案名稱：fibo.py
+
+```python fibo.py
+def fib(n): # write Fibonacci series up to n
+    a, b = 0, 1
+    while b < n:
+        print(b, end=' ')
+        a, b = b, a+b
+    print()
+
+
+def fib2(n): # return Fibonacci series up to n
+    result = []
+    a, b = 0, 1
+    while b < n:
+        result.append(b)
+        a, b = b, a+b
+    return result
+```
+
+接著你可以在其他的 script 中使用 import 來把寫好的模組匯入並使用：
+
+```python
+# 模組名稱即檔案名稱
+import fibo
+
+# 注意，你需要使用模組的名稱加上 . 來使用該模組裡面的 functions
+fibo.fib(10)
+print(fibo.fib2(10))
+```
+
+另外你也可以依據需求只匯入需要的 function
+
+```python
+# 從 <模組> 匯入 <function>
+from fibo import fib, fib2
+
+# 這時你不需要加上模組名稱就可以直接使用
+fib(10)
+print(fib2(10))
+```
+
+如果你不知道想用哪一個 function 但又不想透過模組名稱來使用模組內的 function，你也可以 `from fibo import *`。
+
+當你想要單獨測試你的模組，但不想要額外寫另外一個 script 時，可以使用 `if __name__ == '__main__'` 這一個控制語句，Python 可以透過這個方式來判斷使用者是「把這個模組 import 進其他的 script 中」還是「直接執行這一個模組」：
+
+```python
+# the rest part of fibo.py
+if __name__ == '__main__':
+    fib(10)
+    print(fib2(10))
+```
+
+## 套件
+
+依據你在設計 Python 程式的需求，你還可以使用套件（package）的方式來把類似功能的模組包裝起來，這有點像是「模組的模組」。
+
+在 Python 中實際操作套件的方法是使用「目錄結構」，同樣我們使用官方的範例來講述這一個概念（其實官方的範例寫得很好啊）。
+
+假設你希望你的套件名稱為 sound，套件中有 format、effects 和 filters 三個套件，各自的套件中各自包含相關的模組，你的目錄結構可能會長得像這樣
+
+```
+sound/                        Top-level package
+    __init__.py               Initialize the sound package
+    formats/                  Subpackage for file format conversions
+        __init__.py
+        wavread.py
+        wavwrite.py
+        aiffread.py
+        aiffwrite.py
+        auread.py
+        auwrite.py
+        ...
+    effects/                  Subpackage for sound effects
+        __init__.py
+        echo.py
+        surround.py
+        reverse.py
+        ...
+    filters/                  Subpackage for filters
+        __init__.py
+        equalizer.py
+        vocoder.py
+        karaoke.py
+        ...
+```
+
+大家可以看到每一個資料夾（套件）中都有一個 `__init__.py` 的檔案，這一個檔案是 Python 用來標記「這一個資料夾為套件」用的，要建立套件時務必不能忘了這一個檔案。一般使用上只需要建立一個空檔案命名為 `__init__.py` 即可，但其實這一個檔案裡面是可以做一些套件初始化的操作的（有興趣者可以看一下官方的文件）。
+
+在建立完這樣的目錄結構之後，要怎麼樣取用套件內的模組呢？方法其實與「使用模組中的 function」相同，即使用 `.` 來存取：
+
+```python
+# 匯入單獨的模組
+import sound.effects.echo
+
+# 使用時需要用完整的名稱
+sound.effects.echo.echofilter()
+
+# 另外一種方式
+from sound.effects import echo
+
+# 這時候就不需要用完整的名稱了（但仍需要模組名稱）
+echo.echofilter()
+
+# 當然你也可以只匯入你想要的那一個 function
+from sound.effects.echo import echofilter
+echofilter()
+```
+
+## 關於 `from sound.effects import *`
+
+`from sound.effects import *` 的結果可能會跟你想得不太一樣，你可能會覺得這一行會幫你 import 所有在 sound.effects 裡面的 modules，但其實預設的情況下是什麼都沒有 ˊ_>ˋ
+
+為了方便你自己試試看，我在 module2/package\_module\_example 的資料夾裡面製作了一個範例 `topPackage`，你可以自己試試看以下的操作：
+
+```python
+import topPackage.subPackageA.moduleA
+topPackage.subPackageA.moduleA.funInA() # This is funInA
+
+from topPackage.subPackageB.moduleB import *
+funInB() # This is funInB
+```
+
+接下來開一個新的環境，再試試看
+
+```python
+from topPackage.subPackageA import *
+moduleA.funInA()    # NameError，為何？
+funInA()            # NameError
+topPackage.subPackageA.moduleA.funInA() # NameError
+
+from topPackage.subPackageA import moduleA
+moduleA.funInA()    # 可以正執行
+```
+
+Python 的預設情況下，使用 `from package import *` 時並不會幫你「匯入該套件下的所有模組/套件」，這是為了避免 import 造成的一些混亂，但你可以透過增加一些東西到 `__init__.py` 裡來讓 `from package import *` 的功能出現一些效果，不過這個內容就有點細了，這裡不提，有興趣的人可以 [參考這裡](https://docs.python.org/3.4/tutorial/modules.html#importing-from-a-package)。
+
+更詳細的套件與模組的使用方式，請參考[官方文件](https://docs.python.org/3.4/tutorial/modules.html)
+
+## 使用套件管理工具 pip
+
+`pip` 是一個 Python 的套件管理工具，基本上你在安裝 Python 的時候會預設跟 Python 放在一起。
+
+透過 `pip` 你可以「踩在巨人的肩膀上」，他會自動幫你下載並安裝你想安裝的 Python 套件，使用方法如下：
+
+1. 使用 Google 或是 pip search django 找到 pip 能夠安裝的套件名稱
+1. （在你的 terminal/cmd 內）pip install <套件名稱>
+
+在後面的課程中，我們會需要使用 `pip` 來安裝像 Django、Scrapy 等 Python 套件。
+
+>注意，有些人如果曾經裝過 Python 2 的話，直接用 `pip` 的指令可能會呼叫到 Python 2 的 `pip`，你可以使用 `pip -V` 這一個指令來看你的 `pip` 對應到的是哪一個版本的 Python，如果不是 Python 3 的話你可能會需要下 `pip3` 來取用 Python 3 版本的 `pip`
 
 ---
 
 # d3. 撰寫文件 Documentation by sphinx
 
-http://www.sphinx-doc.org/en/stable/tutorial.html
-http://chimerhapsody.blogspot.tw/2014/07/python.html
-https://www.ibm.com/developerworks/cn/opensource/os-sphinx-documentation/
-http://www.sphinx-doc.org/en/stable/ext/autodoc.html
+- http://www.sphinx-doc.org/en/stable/tutorial.html
+- http://chimerhapsody.blogspot.tw/2014/07/python.html
+- https://www.ibm.com/developerworks/cn/opensource/os-sphinx-documentation/
+- http://www.sphinx-doc.org/en/stable/ext/autodoc.html
 
 ---
 
 # d4. 單元測試 Unit Test
 
-http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/
-https://docs.python.org/3.4/library/unittest.html
+- http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/
+- https://docs.python.org/3.4/library/unittest.html
 
 ---
 
 # d5. 檔案讀寫與參數傳遞
 
-## File I/O
+## d5.1 File I/O
 
 在 Python 讀寫檔案的操作方法一樣是使用物件的方式處理。
 
@@ -727,7 +885,7 @@ print(f.closed) # True here
 
 參考資料：https://docs.python.org/3.4/tutorial/inputoutput.html#reading-and-writing-files
 
-## Argument
+## d5.2 Argument
 
 參數是我們在執行程式的時候，能夠從外部傳進程式裡面的「指令字串」，這是在文字操作模式中被廣為使用的一種控制程式行為的方式。
 
@@ -852,9 +1010,10 @@ Git 是一種版本管理工具，而 GitHub 可以說是在網路上的 Git 資
 
 
 其他參考資料：
-http://gogojimmy.net/2012/01/17/how-to-use-git-1-git-basic/
-http://www.ithome.com.tw/news/95283
-https://try.github.io/levels/1/challenges/1
+
+- [Git 教學(1) : Git 的基本使用](http://gogojimmy.net/2012/01/17/how-to-use-git-1-git-basic/)
+- [Git達人教你搞懂GitHub基礎觀念](http://www.ithome.com.tw/news/95283)
+- [GitHub 提供的線上練習](https://try.github.io/levels/1/challenges/1)
 
 ---
 
