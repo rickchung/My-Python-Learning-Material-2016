@@ -79,9 +79,10 @@
 - Python 的物件導向實現方法
 - Python 的檔案輸入輸出
 - Python 的例外處理（Exception）
+- Python 單元測試的基礎
 - Python 的 module 概念與管理工具 pip
-- Python Documentation
-- Git 與 GitHub
+- 如何透過工具自動產生 Python 的文件
+- Git 與 GitHub 的概念
 
 ## 2. 課程大綱
 
@@ -855,10 +856,120 @@ Python 的預設情況下，使用 `from package import *` 時並不會幫你「
 
 # d3. 撰寫文件 Documentation by sphinx
 
-- http://www.sphinx-doc.org/en/stable/tutorial.html
-- http://chimerhapsody.blogspot.tw/2014/07/python.html
-- https://www.ibm.com/developerworks/cn/opensource/os-sphinx-documentation/
-- http://www.sphinx-doc.org/en/stable/ext/autodoc.html
+為自己寫好的程式碼撰寫文件對於很多程式猿來說是非常麻煩且令人困擾的事情，但寫文件在團隊合作中是非常重要的事情，有了文件之後，你的小夥伴才不需要打開你的程式碼去看究竟如何使用你所撰寫的程式。幸好我們有一些自動化的工具能夠幫助我們「寫註解時同時就寫好了文件」，
+
+`sphinx` 是一個用 Python 寫成的文件生產器，他能夠根據你寫在程式中的註解，自動產生出漂亮的文件，還能夠支援 HTML、PDF、man page 等經常使用的程式文件格式。
+
+Python 的[官方文件](https://docs.python.org/3/)就是使用 `sphinx` 所產生出來的。
+
+由於文件牽涉到了很多關於排版的問題，因此在這邊我只會講解最基礎的用法，但其實最基本的做法就能夠滿足大多數的需求了 ˊ_>ˋ。
+
+首先你需要使用前面介紹的 `pip` 來安裝 `sphinx`
+
+打開你的 cmd/terminal 輸入以下指令：
+
+```
+pip install Sphinx
+```
+
+安裝完成後就可以開始使用 `sphinx` 產生文件了。
+
+## 建立文件的 Project
+
+因為 `sphinx` 會在你的資料夾下放一些設定檔，建議把程式碼跟文件資料夾分開，先新增兩個資料夾 src 和 doc：
+
+```
+├── doc
+└── src
+    ├── m2_args.py
+    ├── m2_class.py
+    ├── m2_decorator.py
+    ├── m2_fibo.py
+    ├── m2_poly.py
+    └── m2_unittest.py
+```
+src 下就放你的程式碼，而 doc 將會是你的文件資料夾。
+
+接著執行 `sphinx-quickstart doc`，他會問體一連串跟文件設定有關的問題，大部分的問題你可以直接按 enter 選用預設值（除了要你輸入 project 名稱或作者等的問題），但其中有兩個問題可以輸入 y：
+
+```
+......
+這是把 sphinx 內的文件原始檔跟輸出檔的資料夾分開
+> Separate source and build directories (y/n) [n]: y
+
+這個是跟自動產生 doc 有關的設定
+> autodoc: automatically insert docstrings from modules (y/n) [n]: y
+......
+
+```
+
+完成之後，你可以發現 doc 資料夾內有一些東西冒出來了。
+
+>**ValueError: unknown locale: UTF-8**
+>在建立 sphinx 專案的時候你可能會遇到這個問題，解決方法在[這篇文章](http://stackoverflow.com/a/10926115)裡有解釋。只要在 terminal 內輸入以下指令，即可解決問題。
+>```
+>export LC_ALL=en_US.UTF-8
+>export LANG=en_US.UTF-8
+>```
+
+接下來我們要設定 `sphinx` 來讓他能夠找到我們的程式碼在哪裡，打開 `doc/source/conf.py` 這一個檔案，大約在 19~22 行的地方會有這樣的註解，找到之後加入下面那一行，用意是讓 `sphinx` 能夠找到我們撰寫的程式碼：
+
+```python
+# If extensions (or modules to document with autodoc) are in another directory,
+# add these directories to sys.path here. If the directory is relative to the
+# documentation root, use os.path.abspath to make it absolute, like shown here.
+#sys.path.insert(0, os.path.abspath('.'))
+# 加入下面這一行
+sys.path.insert(0, os.path.abspath('../../src/'))
+```
+
+再來我們要開始完成最基本的文件架構， `sphinx` 輸出的文件檔是根據在 source 資料夾中的各種 `.rst` 來建立的。
+
+首先我們打開 source/index.rst，這是 `sphinx` 預設作為首頁的檔案，在其中加入以下內容：
+
+```
+Welcome to Test's documentation!
+================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 2
+
+   MyTestDoc   <--- 加入這一行，意指我們想要加入 MyTestDoc.rst 這一個文件
+```
+
+接著我們要撰寫 MyTestDoc.rst 這一個檔案，在 source 資料夾中新增 MyTestDoc.rst 並加入以下內容：
+
+```rst
+Documentation for our sphinx example
+=============================================
+
+You can say something here.
+
+.. automodule:: m2_class  <--- 這邊要放的名稱是你在 src 資料夾內的程式碼模組名稱
+   :members: 
+.. automodule:: m2_fibo
+   :members: 
+.. automodule:: m2_poly
+   :members:
+
+```
+
+完成之後，在 doc 資料夾內，執行 `make html`，等他跑完之後，你就可以在 doc/build/html 內找到 index.html，這就是 `sphinx` 產生出來的 HTML 文件檔。
+
+大概會長這樣：
+
+![sphinx ex1]()
+![sphinx ex2]()
+
+最方便的地方是，你只需要在你所撰寫的類別或者方法中，插入適當的註解文字，`sphinx` 就會將這些註解文字抓出並產生文件檔，「寫程式碼的同時寫註解」，能夠減少我們很多的麻煩。
+
+`sphinx` 裡面有很多可以設定的細節，礙於篇幅的關係我們只能說明最基本的用法。
+
+為了產生出漂亮的說明文字，你還可以善用 `sphinx` 所用的文件語法 [reStructuredText](www.sphinx-doc.org/en/stable/rest.html) 來美化你的文件，不過這個部分就需要你自己去嘗試了 ˊ_>ˋ
+
+更多資料可以參考[shpinx 的官方教學](http://www.sphinx-doc.org/en/stable/tutorial.html)
 
 
 # d4. 單元測試 Unit Test

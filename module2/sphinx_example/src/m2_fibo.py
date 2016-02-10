@@ -1,4 +1,7 @@
-def fib(n): # write Fibonacci series up to n
+def fib(n):
+    """
+    Generate Fibonacci series
+    """
     a, b = 0, 1
     while b < n:
         print(b, end=' ')
@@ -7,6 +10,9 @@ def fib(n): # write Fibonacci series up to n
 
 
 def fib2(n): # return Fibonacci series up to n
+    """
+    Generate Fibonacci series as list
+    """
     result = []
     a, b = 0, 1
     while b < n:

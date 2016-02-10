@@ -1,4 +1,7 @@
 class AbstractClassifier(object):
+    """ 
+    This is the AbstractClassifier used to be derived
+    """
     def __init__(self, name):
         self.name = name
         self.model = None
@@ -12,10 +15,16 @@ class AbstractClassifier(object):
         return self.name
 
 class NaiveBayesClassifier(AbstractClassifier):
+    """
+    NaiveBayesClassifier implements the Bayes theorem
+    """
     def __init__(self):
         super(NaiveBayesClassifier, self).__init__('NaiveBayesClassifier')
 
 class SMOClassifier(AbstractClassifier):
+    """
+    Kind of SVM classifier
+    """
     def __init__(self):
         super(SMOClassifier, self).__init__('SMOClassifier')
 
