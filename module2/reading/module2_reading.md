@@ -963,6 +963,49 @@ You can say something here.
 ![sphinx ex1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/sphinx-ex1.png)
 ![sphinx ex2](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/sphinx-ex2.png)
 
+對比原本 m2_class.py 內的程式碼，大概就可以知道 `shpinx` 做了什麼：
+
+```python
+class Account(object):
+    """
+    Account is a class eample.
+    """
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+        self.balance = 0.0
+
+    def deposit(self, amount):
+        """
+        deposit some amount of money to the account
+
+        Return:
+            int: the amount of money you deposit
+        """
+        self.balance += amount
+        return amount
+
+    def withdraw(self, amount):
+        """
+        withdraw some money from the account.
+
+        Args:
+            int: amount
+
+        Return:
+            int: money you want to withdraw
+
+        Raises:
+            ValueError if there is no enough balance
+
+        >>> account.withdraw()
+        """
+        if amount <= self.balance:
+            self.balance -= amount
+            return amount
+# ......
+```
+
 最方便的地方是，你只需要在你所撰寫的類別或者方法中，插入適當的註解文字，`sphinx` 就會將這些註解文字抓出並產生文件檔，「寫程式碼的同時寫註解」，能夠減少我們很多的麻煩。
 
 `sphinx` 裡面有很多可以設定的細節，礙於篇幅的關係我們只能說明最基本的用法。
