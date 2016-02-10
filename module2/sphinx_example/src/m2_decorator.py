@@ -1,3 +1,10 @@
+"""
+.. module:: m2_decorator
+    :synopsis: This is a decorator example for module 2
+
+.. moduleauthor:: RickChung
+"""
+
 class my_decorator(object):
     def __init__(self, f):
         print('inside my_decorator.__init__()')
