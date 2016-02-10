@@ -1,4 +1,3 @@
-
 # Module 2 - More Python, Object-Oriented Thinking and Teamworks
 
 >目前公司正準備要開發一套簡單的網路程式，在你的團隊中有好多個程序猿，這個網路程式雖然簡單，但有許多功能跟很多不同的模組需要由不同的團隊完成。你的團隊被指派去做檔案處理的部份。
@@ -56,7 +55,7 @@
 
 你如果去網路上搜尋「物件導向」，跑出來的結果往往五花八門，有些人可能會跟你說「物件導向就是 XXX」之類的話，或者跟你說物件導向就是「封裝、繼承跟多型」，這些都是物件導向的某一個特色或者是風格，但我感覺不能夠以此作為整個物件導向概念的體現，以下是我認為的「物件導向」，給予大家參考：
 
-- 物件導向是一種設計的方法，架構軟體的模式，他是你在思考如何解決問題時可以依循的一種方法
+- 物件導向是一種設計的方法，架構軟體的模式，他是你在思考如何解決問題時可以依循的一種方法，特色是使用現實世界各種物體彼此互動的概念來建構
 - 所謂的「物件導向程式語言」指的是「基於物件導向概念設計出來的語言」或「能夠方便你實現物件導向設計的語言」
 - 寫程式就像寫文章一樣，寫出什麼樣的東西是操之在你的思考方法，不是使用 OO 程式語言寫的東西就是 OO 程式，你也可以拿不是 OO 的語言，例如 C，寫出 OO 的程式，只要你知道你在做什麼
 - 封裝、繼承、多型的確是物件導向中很重要的概念，但更重要的是這些概念在解決問題時體現出來的效果，例如程式碼重用、模組化以及方便你維護程式等等
@@ -153,7 +152,7 @@
 
 當然，為了能夠系統化的處理分析的工作，你可能會需要一些工具，或著畫一些圖，常見的圖有 use case 與 class diagram。
 
->這段是有感而發
+>**這段是有感而發**
 >
 >當你去上系統分析與設計這堂課時，「一定要認真畫圖」並且思考「為什麼你要畫那些圖」
 >
@@ -171,6 +170,8 @@
 - 人事物之間，詳細的互動方式以及過程是怎麼樣的呢？
 - ......
 
+設計的責任是建立系統的架構，把分析的結果，加入實作上可能需要考慮的細節，或者把分析出來的概念用接近實作的方法表現出來。
+
 物件導向設計的細節可能包括：
 
 - 把分析找出的概念，對應到實作的上，並定義實作的細節
@@ -184,9 +185,37 @@
 
 ## 什麼是實作（Implementation）
 
-## 其他步驟：測試與維護
+實作階段就是真正開始寫程式碼的時候，但在實作時你會受到選用的程式語言本身的限制，或發現一些分析與設計時沒有考慮到的東西。
 
-## 為什麼這很重要 -- 關於開發流程
+因此你可能會需要寫一寫再回顧分析與設計的階段，週而復始。
+
+物件導向實作可能需要考慮的事：
+
+- 寫程式碼
+- 模組化
+- 抽象化
+- 考慮語言本身的性質與設計的差異
+- 考慮重用性
+- 物件互動的方式
+- 單元測試
+
+
+## 其他步驟：關於測試
+
+在學校裡寫程式你可能從來沒有想過要寫測試這回事，通常是因為你的程式不太大，或者你的程式只會用一次，撰寫測試反而耗時費力，顯得畫蛇添足。
+
+但是，當你的程式非常大，有非常多個部分，而且每天每天可能都需要改動你的程式時，單元測試會幫助你省下很多的時間（不過開始建立單元測試的過程是很辛苦的，先苦後甘）。
+
+在 StackOverflow 上有一篇在討論 unit test 到底有沒有用的[文章](http://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort)，裡面有一些滿有趣的回答，例如這一個：
+
+>"**Unit testing is a lot like going to the gym.** You know it is good for you, all the arguments make sense, so you start working out. There's an initial rush, which is great, but after a few days you start to wonder if it is worth the trouble. You're taking an hour out of your day to change your clothes and run on a hamster wheel and you're not sure you're really gaining anything other than sore legs and arms." - quoted from [here](http://stackoverflow.com/a/69263)
+
+寫測試很重要，也許你現在無法體會，但是你要對這個東西有點概念。
+
+如果你很有
+心的話也可以在你未來的專案裡面加入測試的部分，並強烈要求你的組員遵循開發流程 ˊ_>ˋ
+
+## 為什麼這很重要 - 關於開發流程
 
 前面我們提到了分析、設計與實作的這些步驟其實是抽取自 SDLC 這一個結構化的軟體設計方法。
 
@@ -196,7 +225,7 @@
 
 在軟體工程發展多年以來，有各式各樣的人、各式各樣的團隊，嘗試著各式各樣的軟體開發流程與方法，**那些名詞就是人們在實際開發軟體時，曾經嘗試過的各種模式。**
 
-我個人認為，所有軟體的開發模式概念其實都是都是彼此互通的，只不過是把我們熟悉的計劃、分析、設計、實作、測試與維護的過程進行排列組合、扭曲變形之後產生出來。
+我個人認為，所有軟體的開發模式概念其實都是都是彼此互通的，只不過是把我們熟悉的計劃、分析、設計、實作、測試與維護的過程，針對某些問題進行調整、排列組合、扭曲變形後產生出來的。
 
 因為這個世界沒有正確答案，沒有所謂的 silver bullet 能夠解決所有問題，尤其在軟體高速發展的現代，在過去適用的一些開發方式可能不適合未來新的軟體，因此人們仍然在發掘更好的方法去管理和進行軟體工程。
 
@@ -204,17 +233,118 @@
 
 # 物件導向基礎概念
 
+在前言中我們給了一個物件導向的解釋，大家可以用它作為你了解物件導向的開頭。
+
+>物件導向是一種設計的方法，架構軟體的模式，他是你在思考如何解決問題時可以依循的一種方法，特色是使用現實世界各種物體彼此互動的概念來建構
+
 ## 用物件的方式思考 Object-Oriented Modeling
 
-### 類別 Class
+物件導向編程最重要的事情就是「用物件的方式思考」，怎麼樣去定義一支程式裡面的各種物件，怎麼樣去定義物件之的操作方式、性質和物件之間的連結，每個人的作法可能都不太一樣，這就像畫圖一樣，對於同樣的風景，每一個人描繪出來的作品可能天差地遠。
 
-### 封裝 Encapsulation and Data Hiding
+不過有一個東西是不變的，就是這些作品的基礎，如何闡述線條、如何調配色彩等等這些繪畫的基礎，有大牛的技巧你不一定畫得出大牛的作品，但沒有反覆練習的基礎技巧，你一定畫不出大牛的作品。
 
-### 繼承 Inheritance
+物件導向程式設計也是一樣的，雖然通往解答的路線是個人造詣，但抽絲剝繭後出來的都是同樣的物件基礎，所以你必須要了解這些共通的技巧和概念。
 
-### 多型 Polymorphism
+## 物件 Object
 
-### 物件與物件之間的連結 Massage Passing, Links and Association
+在物件導向裡面，最重要的東西當然是「物件」，而這個物件指的是「把一支程式內的概念，用現實世界的物件來體現」。
+
+從上面忠孝橋引道的例子中，我們可以看到很多的物件，橋是一個物件、汽車是一個物件、北門是一個物件、機具是很多個物件，人當然也是一個一個的物件。
+
+為了要把現實世界物件的概念轉為電腦能夠實現的概念，一些偉大大牛們就給現實世界裡那些物件一些清楚的「定義」：物件是由「狀態 state」和「行為 behavior」組成的東西。
+
+有了定義之後，程式中的物件也能夠依循現實世界物件的模式進行定義：
+
+- 程式裡的物件同樣也有狀態跟行為
+- 狀態被稱為 fields、attributes、features 或 variables
+- 行為被稱為 methods 或 functions，有時候也指操作方法
+
+<img src="object.png" alt="物件圖">
+
+還記得我們說過「在 Python 裡面所有東西都是物件」這件事嗎？
+
+```python
+bridge = ZhongXiaoQiao()
+print(bridge.width)     # 狀態 field
+print(bridge.height)    # 狀態 field
+print(bridge.getArea()) # 操作方法 method
+```
+
+## 類別 Class
+
+在瞭解了物件是什麼之後，我們需要一個「方法」來歸納所有相同的物件，並用於定義新的物件，這就是 class 的概念。
+
+class 可以被看成「物件的藍圖」或者「物件的設計書」，透過類別我們能夠把相同的物件用有組織的方式歸納起來，並且在需要的時候透過 class 產生新的物件
+
+我們用 Python code 來定義一個 class 看看：
+
+```python
+class ZhongXiaoQiao:
+    """
+    ZhongXiaoQiao is a blueprint of bridge used to generate ZhongXiaoQiao. 
+    """
+    def __init__(self, width, height, depth):
+        """
+        Construct a new ZhongXiaoQiao object.
+
+        Args:
+            width (float): the width of the bridge
+            height (float): the height of the bridge
+            depth (float): the depth of the bridge
+
+        Returns:
+            None
+
+        Constructor of ZhongXiaoQiao 
+
+        >>> bridge = ZhongXiaoQiao(1.0, 2.0, 3.0)
+        """
+        self.width  = width
+        self.height = height
+        self.depth  = depth
+
+    def getVolume(self):
+        """
+        Get the volume of this bridge.
+
+        Returns:
+            float. The volume of this bridge.
+
+        No description.
+
+        >>> bridge.getVolume()
+        """
+        return self.width*self.height*self.depth
+
+if __name__ == '__main__':
+    # 測試看看這一個 class
+    # 製作一個新的忠孝橋，並給一些參數
+    bridge = ZhongXiaoQiao(2, 20, 3)
+    # 操作看看這一個物件
+    print('bridge width = '+str(bridge.width))
+    print('bridge height = '+str(bridge.height))
+    print('bridge depth = '+str(bridge.depth))
+    print('bridge volume = '+str(bridge.getVolume()))
+    
+```
+
+>這邊你會看到 code 裡面有一句 `if __name__ == '__main__':` ，你可能會在很多其他地方看到這樣的寫法，這是什麼意思呢？
+>
+>用非常直覺的方法來理解，這個語法可以用來判斷這一個 Python script 是被直接執行（例如在 ST2 裡面 build 或 `python3 xxx.script`）還是被 `import` 進別的 script 中使用。
+>
+>大家還記得 module 1 problem 裡面，請大家去 `import` 一些已經寫好的函示嗎？這時候這個區塊裡面的程式碼就不會被執行，但如果你打開你 `import` 的那個 Python script，直接用 ST2 build 的話，你會看到那個區塊被執行了。
+>
+>我覺得大家只要知道他怎麼用就好了（通常可以拿來測試你的 module），但如果你想要更詳細的解釋，可以參考看看 [StackOverflow 上的討論串](http://stackoverflow.com/a/419185)。
+
+## 封裝 Encapsulation and Data Hiding
+
+在上面的範例
+
+## 繼承 Inheritance
+
+## 多型 Polymorphism
+
+## 物件與物件之間的連結 Massage Passing, Links and Association
 
 ## 物件導向的好處 Benefits of Object Oriented Modeling
 
@@ -276,9 +406,12 @@ http://pydoing.blogspot.tw/2011/02/python-module.html
 
 ---
 
-# 撰寫文件 Documentation by sphinx
+# 撰寫文件 Documentation by pydoc and sphinx
 
+http://www.sphinx-doc.org/en/stable/tutorial.html
+http://chimerhapsody.blogspot.tw/2014/07/python.html
 https://www.ibm.com/developerworks/cn/opensource/os-sphinx-documentation/
+http://www.sphinx-doc.org/en/stable/ext/autodoc.html
 
 
 ---
