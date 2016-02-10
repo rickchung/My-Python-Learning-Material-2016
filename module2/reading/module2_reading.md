@@ -229,7 +229,6 @@
 
 因為這個世界沒有正確答案，沒有所謂的 silver bullet 能夠解決所有問題，尤其在軟體高速發展的現代，在過去適用的一些開發方式可能不適合未來新的軟體，因此人們仍然在發掘更好的方法去管理和進行軟體工程。
 
----
 
 # B. 物件導向基礎概念
 
@@ -555,7 +554,6 @@ int main(void) {
 }
 ```
 
----
 
 # C. 物件導向程式設計範例 Object Oriented Programming
 
@@ -565,7 +563,6 @@ int main(void) {
 
 礙於篇幅影響，請看[這裡](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/module2_oop_example.md)
 
----
 
 # D. Python 其他很有用的功能
 
@@ -653,7 +650,6 @@ https://docs.python.org/3.4/tutorial/errors.html#user-defined-exceptions
 - [語言技術：Python Gossip 的 try...raise 介紹](http://openhome.cc/Gossip/Python/TryRaise.html)
 - [Python 官方文件內的 error 說明](https://docs.python.org/3.4/tutorial/errors.html)
 
----
 
 # d2. 模組與套件的概念 Module and Package
 
@@ -665,7 +661,7 @@ https://docs.python.org/3.4/tutorial/errors.html#user-defined-exceptions
 
 檔案名稱：fibo.py
 
-```python fibo.py
+```python
 def fib(n): # write Fibonacci series up to n
     a, b = 0, 1
     while b < n:
@@ -815,7 +811,6 @@ Python 的預設情況下，使用 `from package import *` 時並不會幫你「
 
 >注意，有些人如果曾經裝過 Python 2 的話，直接用 `pip` 的指令可能會呼叫到 Python 2 的 `pip`，你可以使用 `pip -V` 這一個指令來看你的 `pip` 對應到的是哪一個版本的 Python，如果不是 Python 3 的話你可能會需要下 `pip3` 來取用 Python 3 版本的 `pip`
 
----
 
 # d3. 撰寫文件 Documentation by sphinx
 
@@ -824,14 +819,12 @@ Python 的預設情況下，使用 `from package import *` 時並不會幫你「
 - https://www.ibm.com/developerworks/cn/opensource/os-sphinx-documentation/
 - http://www.sphinx-doc.org/en/stable/ext/autodoc.html
 
----
 
 # d4. 單元測試 Unit Test
 
 - http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/
 - https://docs.python.org/3.4/library/unittest.html
 
----
 
 # d5. 檔案讀寫與參數傳遞
 
@@ -970,7 +963,6 @@ cube result = 1000
 
 參考資料：https://docs.python.org/3.4/library/argparse.html
 
----
 
 # Git & GitHub
 
@@ -1015,7 +1007,6 @@ Git 是一種版本管理工具，而 GitHub 可以說是在網路上的 Git 資
 - [Git達人教你搞懂GitHub基礎觀念](http://www.ithome.com.tw/news/95283)
 - [GitHub 提供的線上練習](https://try.github.io/levels/1/challenges/1)
 
----
 
 # 總結
 
