@@ -456,7 +456,7 @@ if __name__ == '__main__':
 
 為了減少這篇的長度，詳細的內容可以[看這裡](http://openhome.cc/Gossip/Programmer/Ad-hoc-Polymorphism.html)，雖然我覺得這一篇有點「學術」，可能要多看幾次。
 
-用 Java 跟 C++ 寫幾個感覺看看
+用 Java 跟 C++ 寫幾個感覺看看，也許可以幫助你理解多型意義。
 
 ```java
 public class Classifier {
@@ -558,38 +558,9 @@ int main(void) {
 
 # 物件導向程式設計範例 Object Oriented Programming
 
-## 複習流程：分析、設計與實作
+在這一個單元裡我們會一步一步帶使用者看如何使用物件導向的方式來寫 module 1 的 exercise。
 
-## 第一步 物件導向分析 Object-Oriented Analysis
-
-### 常用工具介紹：Use Case (UML), Class Diagram (UML)
-
-### Problem Identification
-
-### Requirement Identification
-
-### Extracting Key Concepts
-
-### Identifying Objects
-
-## 第二步 物件導向設計 Object-Oriented Design
-
-### 常見工具介紹：Sequence Diagram (UML), Activity Diagram (UML) and Data Flow Diagram
-
-### Constructing System Architecture
-
-### Finding Associations Between Objects
-
-### Defining Object Hierarchy
-
-### Object Details, Attributes and Methods
-
-## 第三步 物件導向實作 Object-Oriented Implementation
-
-### Python Class
-
-## 補充：分析與設計作圖工具 UML
-
+礙於篇幅影響，請看[這裡]()
 
 ---
 
@@ -597,7 +568,6 @@ int main(void) {
 
 http://openhome.cc/Gossip/Python/TryRaise.html
 https://docs.python.org/3.4/tutorial/errors.html
-
 
 ---
 
@@ -608,16 +578,14 @@ http://blog.eddie.com.tw/2011/10/13/python-module/
 http://www.codedata.com.tw/python/python-tutorial-the-2nd-class-3-function-module-class-package/
 http://pydoing.blogspot.tw/2011/02/python-module.html
 
-
 ---
 
-# 撰寫文件 Documentation by pydoc and sphinx
+# 撰寫文件 Documentation by sphinx
 
 http://www.sphinx-doc.org/en/stable/tutorial.html
 http://chimerhapsody.blogspot.tw/2014/07/python.html
 https://www.ibm.com/developerworks/cn/opensource/os-sphinx-documentation/
 http://www.sphinx-doc.org/en/stable/ext/autodoc.html
-
 
 ---
 
@@ -625,7 +593,6 @@ http://www.sphinx-doc.org/en/stable/ext/autodoc.html
 
 http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/
 https://docs.python.org/3.4/library/unittest.html
-
 
 ---
 
@@ -640,7 +607,6 @@ https://docs.python.org/3.4/tutorial/inputoutput.html#reading-and-writing-files
 https://docs.python.org/3.4/howto/argparse.html#id1
 https://docs.python.org/3.4/library/argparse.html
 
-
 ---
 
 # Git & GitHub
@@ -650,7 +616,6 @@ http://gogojimmy.net/2012/01/17/how-to-use-git-1-git-basic/
 http://www.ithome.com.tw/news/95283
 https://try.github.io/levels/1/challenges/1
 
-
 ---
 
 # 關於團隊合作
@@ -658,7 +623,6 @@ https://try.github.io/levels/1/challenges/1
 ## 上面講的只是很小的一部份
 
 ## 軟體開發流程
-
 
 ---
 
