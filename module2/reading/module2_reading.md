@@ -264,67 +264,77 @@
 還記得我們說過「在 Python 裡面所有東西都是物件」這件事嗎？
 
 ```python
-bridge = ZhongXiaoQiao()
-print(bridge.width)     # 狀態 field
-print(bridge.height)    # 狀態 field
-print(bridge.getArea()) # 操作方法 method
+account = Account(1, 'my name')
+print(account.name)             # 狀態 field
+account.deposit(1000)           # 操作方法 method
+print(account)                  # 會根據 __str__ 方法印出結果
+print(account.withdraw(100))    # 操作方法 method
 ```
 
 ## 類別 Class
 
 在瞭解了物件是什麼之後，我們需要一個「方法」來歸納所有相同的物件，並用於定義新的物件，這就是 class 的概念。
 
-class 可以被看成「物件的藍圖」或者「物件的設計書」，透過類別我們能夠把相同的物件用有組織的方式歸納起來，並且在需要的時候透過 class 產生新的物件
+class 可以被看成「物件的藍圖」或者「物件的設計書」，透過類別我們能夠把相同的物件用有組織的方式歸納起來，並且在需要的時候透過 class 產生新的物件（產生新物件的這個動作被稱為 instantiation）
 
-我們用 Python code 來定義一個 class 看看：
+我們用 Python code 來定義一個 class 看看，請出我們的「銀行帳戶」，這是在許多物件導向語言教學中會出現的例子：
+
+>以下範例修改自 [openhome.cc 的 Python 教學文件](http://openhome.cc/Gossip/Python/Inheritance.html)
 
 ```python
-class ZhongXiaoQiao:
+class Account(object):
     """
-    ZhongXiaoQiao is a blueprint of bridge used to generate ZhongXiaoQiao. 
+    Account is a class eample.
     """
-    def __init__(self, width, height, depth):
+    def __init__(self, id, name):  
+        # 在建立新的物件時，會先執行 __init__ 這一個區塊的程式碼，其中的參數就是建立物件時可以傳入的參數
+        # 這個區塊的程式碼又被稱為建構子 constructor
+        self.id = id
+        self.name = name
+        self.balance = 0.0
+
+    def deposit(self, amount):
         """
-        Construct a new ZhongXiaoQiao object.
+        deposit some amount of money to the account
+
+        Return:
+            int: the amount of money you deposit
+        """
+        self.balance += amount
+        return amount
+
+    def withdraw(self, amount):
+        """
+        withdraw some money from the account.
 
         Args:
-            width (float): the width of the bridge
-            height (float): the height of the bridge
-            depth (float): the depth of the bridge
+            int: amount
 
-        Returns:
-            None
+        Return:
+            int: money you want to withdraw
 
-        Constructor of ZhongXiaoQiao 
+        Raises:
+            ValueError if there is no enough balance
 
-        >>> bridge = ZhongXiaoQiao(1.0, 2.0, 3.0)
+        >>> account.withdraw()
         """
-        self.width  = width
-        self.height = height
-        self.depth  = depth
+        if amount <= self.balance:
+            self.balance -= amount
+            return amount
+        else:
+            raise ValueError('No enough balance')
 
-    def getVolume(self):
-        """
-        Get the volume of this bridge.
-
-        Returns:
-            float. The volume of this bridge.
-
-        No description.
-
-        >>> bridge.getVolume()
-        """
-        return self.width*self.height*self.depth
+    def __str__(self):
+        # 定義在 __str__ 裡面的回傳值，會是你直接用 print(物件) 時印出來的結果
+        return ('Account[id={id}, name={name}, balance={balance}]'
+        .format(id=self.id, name=self.name, balance=self.balance))
 
 if __name__ == '__main__':
-    # 測試看看這一個 class
-    # 製作一個新的忠孝橋，並給一些參數
-    bridge = ZhongXiaoQiao(2, 20, 3)
-    # 操作看看這一個物件
-    print('bridge width = '+str(bridge.width))
-    print('bridge height = '+str(bridge.height))
-    print('bridge depth = '+str(bridge.depth))
-    print('bridge volume = '+str(bridge.getVolume()))
+    account = Account(1, 'my name')
+    print(account.name)             # 狀態 field
+    account.deposit(1000)           # 操作方法 method
+    print(account)                  # 會根據 __str__ 方法印出結果
+    print(account.withdraw(100))    # 操作方法 method
     
 ```
 
@@ -338,15 +348,210 @@ if __name__ == '__main__':
 
 ## 封裝 Encapsulation and Data Hiding
 
-在上面的範例
+在上面的範例我們示範了把銀行帳戶用一個 class 「包裝」起來，裡面包含了一些 fields 跟 methods。
+
+我們去把一些 methods 跟 fields 綜合起來並放入一個 class 中的過程就稱為封裝（encapsulation）。
+
+封裝類別的時候，通常我們會考慮讓某些資訊只能在物件中被取用，物件與外界溝通時則一律使用物件提供的 methods，這一個概念被稱為 data hiding，這是一種物件的設計方法，他是一個滿廣的概念，但通常會這樣做的目的是為了**讓使用者只依照你規定的方法去使用你的類別（物件）**。
+
+例如說你現在想要啟動一台汽車，你需要做的就是插入鑰匙，然後轉動。因為設計汽車的人已經把所有啟動汽車需要的流程包裝成了一個方法（啟動汽車），你不需要自己去做啟動汽車時的各個步驟（例如自己點火、接上電源），並且限制你能夠自行操作的東西來減少危險。
+
+如此一來使用者既不需要自行操作可能會造成危險的步驟，也能夠方便快速地使用你所建構的物件。
+
+data hiding 還有另外一個好處是當我需要改動物件裡面某個方法的內容時，我只要維持相同的操作方法，直接改變方法的內容並不會影響到原先的使用者。
 
 ## 繼承 Inheritance
 
+繼承是物件導向中另外一個很重要的概念，用一句話簡單來說就是「方便你透過現有的類別來建立新的類別，保有現有類別 methods 與 fields 的同時，還能夠根據你的需求去擴充或重新定義 methods 和 fields」。
+
+通常會使用繼承的目的是為了「程式碼的重用」，你今天定義了一個「載具」的類別，並定義了一些大多數載具都共有的特性或方法，當你需要不同特性的「載具」時便可以直接繼承原先的載具，然後定義出新的類別。
+
+我們稱「被繼承的類別」為父類別（parent/base/super class），「繼承別人的類別」為子類別（derived/child/sub class）。
+
+以下是範例，再來講講我們偉大的「銀行帳戶」：
+
+```python
+class CheckingAccount(Account):
+    """
+    This is a CheckingAccount derived from Account class.
+    """
+    def __init__(self, id, name):
+        # 呼叫 parent class 的建構子
+        super(CheckingAccount, self).__init__(id, name)     
+        self.overdrafitlimit = 30000
+
+    def withdraw(self, amount):
+        """
+        passed amount cannot exceed the sum of balance and overdrafitlimit.
+
+        Args:
+            int: amount
+
+        Return:
+            int: amount
+
+        """
+        if amount <= self.balance + self.overdrafitlimit:
+            self.balance -= amount
+            return amount
+        else:
+            raise ValueError('You cannot withdraw so much')
+
+    def __str__(self):
+        return ('CheckingAccount[id={id}, name={name}, balance={balance}, overdrafitlimit={overdrafitlimit}]'
+                .format(id=self.id, name=self.name, balance=self.balance, overdrafitlimit=self.overdrafitlimit))
+```
+
+接著我們可以用一段程式碼看看執行的結果：
+
+```python
+checkingAccount = CheckingAccount(2, 'my checking account')
+print(checkingAccount.name)         # 仍然可以使用父類別的 field
+checkingAccount.deposit(10000)      # 使用父類別的方法
+print(checkingAccount)              # 你會發現執行的是子類別的 __str__
+print(checkingAccount.withdraw(10)) # 執行的是子類別的 `.withdraw()` 方法
+```
+
+其實概念很簡單，繼承別人的類別如果有自己定義的方法就會使用自己的方法，沒有的話就會去呼叫父類別的方法。
+
 ## 多型 Polymorphism
 
-## 物件與物件之間的連結 Massage Passing, Links and Association
+多型是一個很有趣的設計概念，作為一個發展許久的設計方法有很多不同的用法去闡述他的優點，簡單來說，透過多型的特性我們可以「用同一個操作方法，表現出不同的結果」。
 
-## 物件導向的好處 Benefits of Object Oriented Modeling
+不過這個概念在 Python 上面好像很難講出是個怎麼一回事，可能是因為 Python 裡面你呼叫一個方法的時候她自然而然就會根據「是誰被呼叫」來進行「那一個物件自己的操作方法」。如果你寫過 C++ 或者是 Java 之類的語言，可能會比較有不同的體會。
+
+我覺得多型的好處只有在你寫了一些比較大的程式，或者你來自於古老的程式語言時，才比較容易有感覺。
+
+這是關於設計上的問題，大家可以先記得多型是什麼就好（以免別人問起），總有一天你需要設計一個程式的時候你就會想起他的 ˊ_>ˋ。
+
+簡單舉一個例子，注意最後印出來的結果，跟 AbastractClassifier, NaiveBayesClassifier 和 SMOClassifier 之間的關係。
+
+```python
+class AbstractClassifier(object):
+    def __init__(self, name):
+        self.name = name
+        self.model = None
+    def predict(self, instance):
+        # predict the instance
+        pass
+    def trainClassifier(self, data):
+        # do something to train the classifier
+        pass
+    def getName(self):
+        return self.name
+
+class NaiveBayesClassifier(AbstractClassifier):
+    def __init__(self):
+        super(NaiveBayesClassifier, self).__init__('NaiveBayesClassifier')
+
+class SMOClassifier(AbstractClassifier):
+    def __init__(self):
+        super(SMOClassifier, self).__init__('SMOClassifier')
+
+if __name__ == '__main__':
+    classifiers = [NaiveBayesClassifier(), SMOClassifier()]
+    for c in classifiers:
+        print(c.getName()) # 注意這一個印出來的結果
+```
+
+為了減少這篇的長度，詳細的內容可以[看這裡](http://openhome.cc/Gossip/Programmer/Ad-hoc-Polymorphism.html)，雖然我覺得這一篇有點「學術」，可能要多看幾次。
+
+用 Java 跟 C++ 寫幾個感覺看看
+
+```java
+public class Classifier {
+    protected String name;
+
+    public Classifier(String name){
+        this.name = name;
+    }
+
+    public boolean predict(List data) {
+        // Do prediction
+        return false;
+    }
+
+    public void trainClassifier(List data) {
+        // Do something here
+    }
+
+    public String getName() {
+        return this.name;
+    }
+}
+
+public class NaiveBayesClassifier extends Classifier {
+    public NaiveBayesClassifier() {
+        super("NaiveBayesClassifier");
+    }
+}
+
+public class SMOClassifier extends Classifier {
+    public SMOClassifier() {
+        super("SMOClassifier");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        List<Classifier> classifiers = new ArrayList<>();
+        classifiers.add(new SMOClassifier());
+        classifiers.add(new NaiveBayesClassifier());
+
+        for (Classifier c : classifiers) {
+            System.out.println(c.getName());
+        }
+    }
+}
+```
+
+```cpp
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+class Classifier {
+public:
+    string name;
+
+    Classifier(string name) {
+        this->name = name;
+    }
+
+    virtual void getName() {
+        cout << this->name << endl;
+    };
+};
+
+class NaiveBayesClassifier : public Classifier {
+public:
+    NaiveBayesClassifier() : Classifier("NaiveBayesClassifier") {
+
+    };
+};
+
+class SMOClassifier : public Classifier {
+public:
+    SMOClassifier() : Classifier("SMOClassifier") {
+        
+    };
+};
+
+void show_name(Classifier *c) {
+    c->getName();
+}
+
+int main(void) {
+    NaiveBayesClassifier nbc;
+    SMOClassifier smoc;
+
+    show_name(&nbc);
+    show_name(&smoc);
+
+    return 0;
+}
+```
 
 
 ---

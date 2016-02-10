@@ -5,46 +5,88 @@
 .. moduleauthor:: RickChung
 """
 
-class ZhongXiaoQiao:
+class Account(object):
     """
-    ZhongXiaoQiao is a blueprint of bridge used to generate ZhongXiaoQiao. 
+    Account is a class eample.
     """
-    def __init__(self, width, height, depth):
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+        self.balance = 0.0
+
+    def deposit(self, amount):
         """
-        Construct a new ZhongXiaoQiao object.
+        deposit some amount of money to the account
+
+        Return:
+            int: the amount of money you deposit
+        """
+        self.balance += amount
+        return amount
+
+    def withdraw(self, amount):
+        """
+        withdraw some money from the account.
 
         Args:
-            width (float): the width of the bridge
-            height (float): the height of the bridge
-            depth (float): the depth of the bridge
+            int: amount
 
-        Returns:
-            None
+        Return:
+            int: money you want to withdraw
 
-        Constructor of ZhongXiaoQiao 
+        Raises:
+            ValueError if there is no enough balance
 
-        >>> bridge = ZhongXiaoQiao(1.0, 2.0, 3.0)
+        >>> account.withdraw()
         """
-        self.width  = width
-        self.height = height
-        self.depth  = depth
+        if amount <= self.balance:
+            self.balance -= amount
+            return amount
+        else:
+            raise ValueError('No enough balance')
 
-    def getVolume(self):
+    def __str__(self):
+        return ('Account[id={id}, name={name}, balance={balance}]'
+            .format(id=self.id, name=self.name, balance=self.balance))
+
+class CheckingAccount(Account):
+    """
+    This is a CheckingAccount derived from Account class.
+    """
+    def __init__(self, id, name):
+        super(CheckingAccount, self).__init__(id, name)     # Call constructor in the parent class
+        self.overdrafitlimit = 30000
+
+    def withdraw(self, amount):
         """
-        Get the volume of this bridge.
+        passed amount cannot exceed the sum of balance and overdrafitlimit.
 
-        Returns:
-            float. The volume of this bridge.
+        Args:
+            int: amount
 
-        No description.
+        Return:
+            int: amount
 
-        >>> bridge.getVolume()
         """
-        return self.width*self.height*self.depth
+        if amount <= self.balance + self.overdrafitlimit:
+            self.balance -= amount
+            return amount
+        else:
+            raise ValueError('You cannot withdraw so much')
+
+    def __str__(self):
+        return ('CheckingAccount[id={id}, name={name}, balance={balance}, overdrafitlimit={overdrafitlimit}]'
+                .format(id=self.id, name=self.name, balance=self.balance, overdrafitlimit=self.overdrafitlimit))
 
 if __name__ == '__main__':
-    bridge = ZhongXiaoQiao(2, 20, 3)
-    print('bridge width = '+str(bridge.width))
-    print('bridge height = '+str(bridge.height))
-    print('bridge depth = '+str(bridge.depth))
-    print('bridge volume = '+str(bridge.getVolume()))
+    account = Account(1, 'my name')
+    print(account.name)
+    account.deposit(1000)
+    print(account)
+    print(account.withdraw(100))
+
+    checkingAccount = CheckingAccount(2, 'my checking account')
+    print(checkingAccount.name)
+    checkingAccount.deposit(10000)
+    print(checkingAccount)
+    print(checkingAccount.withdraw(10))
