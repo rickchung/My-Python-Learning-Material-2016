@@ -98,7 +98,7 @@
 
 ---
 
-# 分析、設計與實作
+# A. 分析、設計與實作
 
 >在資管系大三的時候會修一門必修課「系統分析與設計」，對於大三以上的同學來說應該已經非常熟悉這個概念了，你可以選擇跳過這一個章節。
 
@@ -118,7 +118,7 @@
 
 舉一個例子：拆除忠孝橋引道。
 
-## 什麼是分析（Analysis）
+## a1. 什麼是分析（Analysis）
 
 >- 我的目標是什麼呢？
 - 有哪些需求必須被滿足？
@@ -161,7 +161,7 @@
 >雖然沒有人說，系統分析就是應該要畫某些無聊的圖或寫下一大堆看起來很理所當然的東西，但那是「一種做法」，而且是被許多人「廣為接受的一種做法」，如果你想做一個系統分析師，那些看起來很無聊的圖，將會在未來你處在茫茫的問題大海中指引你，成為你與他人溝通的一項利器，最後幫助你達到分析的目的。
 
 
-## 什麼是設計（Design）
+## a2. 什麼是設計（Design）
 
 >- 我在分析中找出的人事物，他們有什麼特性？
 - 有沒有辦法把這些人事物歸類呢？
@@ -183,7 +183,7 @@
 你可能會需要的工具：sequence diagram, data flow diagram and activity diagram。
 
 
-## 什麼是實作（Implementation）
+## a3. 什麼是實作（Implementation）
 
 實作階段就是真正開始寫程式碼的時候，但在實作時你會受到選用的程式語言本身的限制，或發現一些分析與設計時沒有考慮到的東西。
 
@@ -200,7 +200,7 @@
 - 單元測試
 
 
-## 其他步驟：關於測試
+## a4. 其他步驟：關於測試
 
 在學校裡寫程式你可能從來沒有想過要寫測試這回事，通常是因為你的程式不太大，或者你的程式只會用一次，撰寫測試反而耗時費力，顯得畫蛇添足。
 
@@ -215,7 +215,7 @@
 如果你很有
 心的話也可以在你未來的專案裡面加入測試的部分，並強烈要求你的組員遵循開發流程 ˊ_>ˋ
 
-## 為什麼這很重要 - 關於開發流程
+## a5. 為什麼這很重要 - 關於開發流程
 
 前面我們提到了分析、設計與實作的這些步驟其實是抽取自 SDLC 這一個結構化的軟體設計方法。
 
@@ -231,13 +231,13 @@
 
 ---
 
-# 物件導向基礎概念
+# B. 物件導向基礎概念
 
 在前言中我們給了一個物件導向的解釋，大家可以用它作為你了解物件導向的開頭。
 
 >物件導向是一種設計的方法，架構軟體的模式，他是你在思考如何解決問題時可以依循的一種方法，特色是使用現實世界各種物體彼此互動的概念來建構
 
-## 用物件的方式思考 Object-Oriented Modeling
+## b1. 用物件的方式思考 Object-Oriented Modeling
 
 物件導向編程最重要的事情就是「用物件的方式思考」，怎麼樣去定義一支程式裡面的各種物件，怎麼樣去定義物件之的操作方式、性質和物件之間的連結，每個人的作法可能都不太一樣，這就像畫圖一樣，對於同樣的風景，每一個人描繪出來的作品可能天差地遠。
 
@@ -245,7 +245,7 @@
 
 物件導向程式設計也是一樣的，雖然通往解答的路線是個人造詣，但抽絲剝繭後出來的都是同樣的物件基礎，所以你必須要了解這些共通的技巧和概念。
 
-## 物件 Object
+## b2. 物件 Object
 
 在物件導向裡面，最重要的東西當然是「物件」，而這個物件指的是「把一支程式內的概念，用現實世界的物件來體現」。
 
@@ -271,7 +271,7 @@ print(account)                  # 會根據 __str__ 方法印出結果
 print(account.withdraw(100))    # 操作方法 method
 ```
 
-## 類別 Class
+## b3. 類別 Class
 
 在瞭解了物件是什麼之後，我們需要一個「方法」來歸納所有相同的物件，並用於定義新的物件，這就是 class 的概念。
 
@@ -346,7 +346,7 @@ if __name__ == '__main__':
 >
 >我覺得大家只要知道他怎麼用就好了（通常可以拿來測試你的 module），但如果你想要更詳細的解釋，可以參考看看 [StackOverflow 上的討論串](http://stackoverflow.com/a/419185)。
 
-## 封裝 Encapsulation and Data Hiding
+## b4. 封裝 Encapsulation and Data Hiding
 
 在上面的範例我們示範了把銀行帳戶用一個 class 「包裝」起來，裡面包含了一些 fields 跟 methods。
 
@@ -360,7 +360,7 @@ if __name__ == '__main__':
 
 data hiding 還有另外一個好處是當我需要改動物件裡面某個方法的內容時，我只要維持相同的操作方法，直接改變方法的內容並不會影響到原先的使用者。
 
-## 繼承 Inheritance
+## b5. 繼承 Inheritance
 
 繼承是物件導向中另外一個很重要的概念，用一句話簡單來說就是「方便你透過現有的類別來建立新的類別，保有現有類別 methods 與 fields 的同時，還能夠根據你的需求去擴充或重新定義 methods 和 fields」。
 
@@ -414,7 +414,7 @@ print(checkingAccount.withdraw(10)) # 執行的是子類別的 `.withdraw()` 方
 
 其實概念很簡單，繼承別人的類別如果有自己定義的方法就會使用自己的方法，沒有的話就會去呼叫父類別的方法。
 
-## 多型 Polymorphism
+## b6. 多型 Polymorphism
 
 多型是一個很有趣的設計概念，作為一個發展許久的設計方法有很多不同的用法去闡述他的優點，簡單來說，透過多型的特性我們可以「用同一個操作方法，表現出不同的結果」。
 
@@ -553,25 +553,104 @@ int main(void) {
 }
 ```
 
-
 ---
 
-# 物件導向程式設計範例 Object Oriented Programming
+# C. 物件導向程式設計範例 Object Oriented Programming
 
 在這一個單元裡我們會一步一步帶使用者看如何使用物件導向的方式來寫 module 1 的 exercise。
 
-礙於篇幅影響，請看[這裡]()
+礙於篇幅影響，請看[這裡](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/module2_oop_example.md)
 
 ---
 
-# 不同以往的程式流程：例外 Exception
+# D. Python 其他很有用的功能
 
+# d1. 不同以往的程式流程：例外 Exception
+
+在古老的程式設計時代，程式語言沒有統一的錯誤處理方式，通常我們得寫很多事前檢查來防止錯誤發生，或者是使用各種的回傳值來標誌不同的錯誤。
+
+在大多數的物件導向程式語言裡，都會設計一種統一的錯誤處理機制，稱為例外（exception）。
+
+在 Python 程式中發生錯誤時，程式會立即中止目前在做的事情，接著引發（raise）例外，如果在你的程式碼中沒有特別捕捉處理（try...except）該例外的話，整個程式就會直接終止，並且顯示出例外追蹤結果（Traceback)。
+
+```
+>>> int('ten')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: invalid literal for int() with base 10: 'ten'
+>>> print('abc'+1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: Can't convert 'int' object to str implicitly
+```
+
+我們可以使用 `try ... except ...` 來捕捉例外：
+
+```python
+while True:
+    try:
+        x = int(input("Please enter a number: "))
+        break
+    except ValueError:
+        print("Your input number is invalid. Please try again.")
+
+print('Square of your input number: ' + str(x**2))
+```
+
+輸出結果（記得如果要取得使用者輸入的話，不要使用 ST2 build）
+
+```
+$ python3 test.py
+Please enter a number: a
+Your input number is invalid. Please try again.
+Please enter a number: b
+Your input number is invalid. Please try again.
+Please enter a number: c
+Your input number is invalid. Please try again.
+Please enter a number: 123
+Square of your input number: 15129
+```
+
+例外處理也有很多不同的處理方式：
+
+```python
+try:
+    # do something
+except: 
+    # 沒有指定的話會捕捉所有的例外或錯誤
+
+try:
+    # do something
+except ValueError:
+    # handle this exception
+except OSError:
+    # handle this exception
+finally:
+    # finally 內的程式碼會在對應的例外處理完後執行
+```
+
+當你有需要的時候，你可以自行引發例外（手動讓例外發生）
+
+```python
+try:
+    raise ValueError
+except ValueError:
+    print('ValueError happened')
+finally:
+    print('This will always be executed')
+```
+
+另外你其實可以自己定義例外，但我覺得這一個功能比較細節了，在平常用 Python 時可能不會用到，因此就用參考資料的方式附在這裡吧
+
+https://docs.python.org/3.4/tutorial/errors.html#user-defined-exceptions
+
+參考資料：
 http://openhome.cc/Gossip/Python/TryRaise.html
 https://docs.python.org/3.4/tutorial/errors.html
 
 ---
 
-# 模組的概念 Module
+# d2. 模組的概念 Module
 
 https://docs.python.org/3.4/tutorial/modules.html
 http://blog.eddie.com.tw/2011/10/13/python-module/
@@ -580,7 +659,7 @@ http://pydoing.blogspot.tw/2011/02/python-module.html
 
 ---
 
-# 撰寫文件 Documentation by sphinx
+# d3. 撰寫文件 Documentation by sphinx
 
 http://www.sphinx-doc.org/en/stable/tutorial.html
 http://chimerhapsody.blogspot.tw/2014/07/python.html
@@ -589,36 +668,197 @@ http://www.sphinx-doc.org/en/stable/ext/autodoc.html
 
 ---
 
-# 單元測試 Unit Test
+# d4. 單元測試 Unit Test
 
 http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/
 https://docs.python.org/3.4/library/unittest.html
 
 ---
 
-# 其他滿有用的概念：檔案讀寫與參數傳遞 File I/O and Argument Passing
+# d5. 檔案讀寫與參數傳遞
 
 ## File I/O
 
-https://docs.python.org/3.4/tutorial/inputoutput.html#reading-and-writing-files
+在 Python 讀寫檔案的操作方法一樣是使用物件的方式處理。
+
+```python
+"""
+開啟檔案並取得 file object
+open(filename, mode)
+mode 可以指定開檔的模式，比較常用的有
+- w: for writing（會直接清空原本檔案）
+- r: for reading
+- a: for appending（寫入時會寫在原本檔案的結尾）
+- r+: for both reading and writing
+"""
+f = open('info_list.txt', 'r')
+# 根據數量讀出東西 .read(size)
+print(f.read(10))
+print(f.read()) # 讀出全部
+
+# 把讀取點移回第 0 個 byte 的位置
+f.seek(0) 
+
+# 讀一行（會包含換行符號 \n）
+print(f.readline())
+
+# 一次讀入全部行並存成 list
+print(f.readlines())
+
+# 關檔，處理完檔案讀寫後一定要記得關檔
+f.close()
+```
+
+如果你有不同的編碼需求，想要用不同的編碼方式寫入或者讀取不同編碼的資料，可以在 open 內加入參數 `encoding=xxx`
+
+```
+f = open('utf8_file.txt', 'r', encoding='utf-8')
+```
+
+因為開檔關檔是每一次處理 file I/O 的時候都會需要做的事，因此 Python 提供了一個簡單的寫法，簡化語法：
+
+```python
+with open('info_list.txt', 'r') as f:
+    # f is the file object which likes f = open('info_list.txt', 'r')
+    read_data = f.read()
+# 到這邊時檔案已經關閉了
+print(f.closed) # True here
+```
+
+參考資料：https://docs.python.org/3.4/tutorial/inputoutput.html#reading-and-writing-files
 
 ## Argument
 
-https://docs.python.org/3.4/howto/argparse.html#id1
-https://docs.python.org/3.4/library/argparse.html
+參數是我們在執行程式的時候，能夠從外部傳進程式裡面的「指令字串」，這是在文字操作模式中被廣為使用的一種控制程式行為的方式。
+
+這邊我會介紹兩種參數傳遞的處理方法，一種是使用 sys 模組提供的 argv 直接取得原始的參數資料，另外一種則是使用內建的 argparse 來自動進行參數分析跟處理。
+
+```python
+import sys
+import argparse
+
+# 取得參數最原始的方法，會回傳一個 list
+print('raw arguments = ' + str(sys.argv), end='\n\n')
+
+# 使用 Python 內建的參數解析
+parser = argparse.ArgumentParser()
+# Positional argument（給參數時會依照順序填入，如果沒有提供會報錯）
+# 使用 type = 可以指定要轉換成什麼樣的型態（預設是字串）
+# help = 可以指定使用 -h 印出幫助訊息時，針對該參數顯示的說明
+parser.add_argument('square', help="display a square of a give number", type=int)
+
+# Opetional arguments（可以提供可以不提供的參數，也可以接收值）
+# action='store_true' 自動存為 True or False
+parser.add_argument('-v', '--verbose', help='increase output verbosity', action='store_true')
+parser.add_argument('-c', '--cube', help='display a cube of a give number', type=int)
+
+# 解析參數並取得結果
+args = parser.parse_args()
+
+# 使用參數結果物件
+print('square result = ' + str(args.square**2))
+
+if args.verbose:
+    print("verbosity turned on")
+    
+if args.cube:
+    print('cube result = ' + str(args.cube**3))
+```
+
+**以上範例你可能要使用 cmd / terminal 來執行，因為 ST2 預設是沒有辦法接收你的輸入的**
+
+不同參數的輸出結果
+
+`$ python m2_args.py`
+```
+raw arguments = ['m2_args.py']
+
+usage: m2_args.py [-h] [-v] [-c CUBE] square
+m2_args.py: error: the following arguments are required: square
+```
+
+`$ python m2_args.py -h`
+```
+raw arguments = ['m2_args.py', '-h']
+
+usage: m2_args.py [-h] [-v] [-c CUBE] square
+
+positional arguments:
+  square                display a square of a give number
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --verbose         increase output verbosity
+  -c CUBE, --cube CUBE  display a cube of a give number
+```
+`$ python m2_args.py 10`
+```
+raw arguments = ['m2_args.py', '10']
+
+square result = 100
+```
+
+`$ python m2_args.py 10 -c 10`
+```
+raw arguments = ['m2_args.py', '10', '-c', '10']
+
+square result = 100
+cube result = 1000
+```
+
+如果不是很理解到底發生什麼事的話，在參考資料的連結裡面有詳細的解釋，如果還是看不太懂的話也可以發問。
+
+參數處理還有很多可以用的功能，如果你需要細節的功能也請看參考資料，沒有辦法在這邊寫得非常清楚 ( ´ ▽ ` )ﾉ
+
+參考資料：https://docs.python.org/3.4/library/argparse.html
 
 ---
 
 # Git & GitHub
 
-https://ihower.tw/git/index.html
+Git 是一種版本管理工具，而 GitHub 可以說是在網路上的 Git 資料庫。
+
+我不會在這邊花很大的篇幅跟大家說明 Git & GitHub 要怎麼樣用，因為在網路上已經有很多寫得很好的教學了，[例如這一個](https://ihower.tw/git/index.html)
+
+建議至少看一下這幾章：
+
+- 版本控制系統
+- Git 簡介與安裝
+- Git 基本指令
+- Git 團隊協同開發指令
+
+看完之後稍微練習一下，基本上你就可以用 Git 完成最基本的版本控制了，剩下的很多功能其實如果沒有真的碰到那些情境，你也不太會用到 ˊ_>ˋ
+
+一般來說 Git 的使用流程非常單純：
+
+首先，在還沒有任何程式碼之前，使用 `git clone` 把遠端的程式庫複製回來。
+
+接著，工作流程大概長這樣：
+
+- 先從遠端更新本地的程式碼（git push）
+- 修改你的程式碼
+- 提交修改的程式碼，建立紀錄（git commit）
+- 把你的紀錄推到遠端的程式庫（git push）
+- 依據情況建立分支（git branch）
+
+另外稍微講一下對 Git 的一些看法，也許能夠幫助你對 Git 有一點概念：
+
+- Git 是本地的版本管理工具，GitHub 是基於 Git 建立的倉庫服務
+- 因為 Git 很紅很多公司都用這個作為程式碼版本管理的工具，所以他很重要（尤其在團隊合作時）
+- 自己一個人用 Git 時他就只是一個方便你存檔讀檔的管理工具，還能夠追蹤歷史紀錄
+- 很多人用 Git 的時候才能發揮 Git 最大的用處，建議你可以在你的專案團隊裡面嘗試使用 Git
+- 並不是用了 Git 之後你的程式碼就會自動被整理好，你仍然需要花時間跟你的團隊溝通跟討論，並且建立管理的規則
+- 建議現在開始練習使用 Git 並練習把自己的作品放到 GitHub 上
+
+
+其他參考資料：
 http://gogojimmy.net/2012/01/17/how-to-use-git-1-git-basic/
 http://www.ithome.com.tw/news/95283
 https://try.github.io/levels/1/challenges/1
 
 ---
 
-# 關於團隊合作
+# 總結
 
 ## 上面講的只是很小的一部份
 
