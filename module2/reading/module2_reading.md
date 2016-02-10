@@ -85,15 +85,42 @@
 
 ## 2. 課程大綱
 
-- Analysis, Design and Implementation
-- Object Modeling and Object-Oriented Programming
-- Basic Object-Oriented Programming Process
-- Analysis and Design Tools
-- Python Exception
-- Python Module
-- Python Documentation
-- Python Unit Test
-- Other Useful Tools: File I/O and Argument Passing
+* [Module 2 - More Python, Object-Oriented Thinking and Teamworks](#module-2---more-python,-object-oriented-thinking-and-teamworks)
+  * [1. 學這堂課要幹麻](#1.-學這堂課要幹麻)
+  * [2. 課程大綱](#2.-課程大綱)
+* [A. 分析、設計與實作](#a.-分析、設計與實作)
+  * [a1. 什麼是分析（Analysis）](#a1.-什麼是分析（analysis）)
+  * [a2. 什麼是設計（Design）](#a2.-什麼是設計（design）)
+  * [a3. 什麼是實作（Implementation）](#a3.-什麼是實作（implementation）)
+  * [a4. 其他步驟：關於測試](#a4.-其他步驟：關於測試)
+  * [a5. 為什麼這很重要 - 關於開發流程](#a5.-為什麼這很重要---關於開發流程)
+  * [a6. 總結](#a6.-總結)
+* [B. 物件導向基礎概念](#b.-物件導向基礎概念)
+  * [b1. 用物件的方式思考 Object-Oriented Modeling](#b1.-用物件的方式思考-object-oriented-modeling)
+  * [b2. 物件 Object](#b2.-物件-object)
+  * [b3. 類別 Class](#b3.-類別-class)
+  * [b4. 封裝 Encapsulation and Data Hiding](#b4.-封裝-encapsulation-and-data-hiding)
+  * [b5. 繼承 Inheritance](#b5.-繼承-inheritance)
+  * [b6. 多型 Polymorphism](#b6.-多型-polymorphism)
+* [C. 物件導向程式設計範例 Object Oriented Programming](#c.-物件導向程式設計範例-object-oriented-programming)
+* [D. Python 其他很有用的功能](#d.-python-其他很有用的功能)
+* [d1. 不同以往的程式流程：例外 Exception](#d1.-不同以往的程式流程：例外-exception)
+* [d2. 模組與套件的概念 Module and Package](#d2.-模組與套件的概念-module-and-package)
+* [d3. 撰寫文件 Documentation by sphinx](#d3.-撰寫文件-documentation-by-sphinx)
+* [d4. 單元測試 Unit Test](#d4.-單元測試-unit-test)
+* [d5. 檔案讀寫與參數傳遞](#d5.-檔案讀寫與參數傳遞)
+  * [d5.1 File I/O](#d5.1-file-i/o)
+  * [d5.2 Argument](#d5.2-argument)
+* [Git & GitHub](#git-&-github)
+* [總結](#總結)
+* [延伸閱讀](#延伸閱讀)
+  * [深入理解 Python Class](#深入理解-python-class)
+  * [Python 有私有成員（Private Member）的概念嗎？](#python-有私有成員（private-member）的概念嗎？)
+  * [pip 與 easy_install](#pip-與-easy_install)
+  * [Python Decorator](#python-decorator)
+  * [開發流程重不重要？](#開發流程重不重要？)
+  * [敏捷開發流程](#敏捷開發流程)
+  * [改善既有程式的設計 - 軟體重構 Refactoring](#改善既有程式的設計---軟體重構-refactoring)
 
 
 ---
@@ -467,6 +494,8 @@ if __name__ == '__main__':
 
 用 Java 跟 C++ 寫幾個感覺看看，也許可以幫助你理解多型意義。
 
+Java 裡的多型：
+
 ```java
 public class Classifier {
     protected String name;
@@ -513,6 +542,8 @@ public class Main {
     }
 }
 ```
+
+C++ 裡的多型：
 
 ```cpp
 #include <string>
@@ -565,11 +596,11 @@ int main(void) {
 
 # C. 物件導向程式設計範例 Object Oriented Programming
 
-我會把這一個單元做成 module 2 的作業，一步一步帶大家看怎麼樣用物件導向的方式來組織 module 1 的 exercise。
+我本來想要給一個物件導向的設計範例，不過我覺得做成作業好像更好 ( ´ ▽ ` )ﾉ
 
-建議可以先稍微瀏覽完下面的 d2 模組與套件 的單元之後再來看這一個範例，因為在範例中會用到裡面的一些概念。
+在作業裡，會一步一步帶大家看怎麼樣用物件導向的方式來組織 module 1 的 exercise。
 
-礙於篇幅影響，請看[這裡](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/module2_oop_example.md)
+可以跳過這裡這個繼續閱讀下面的單元了 XD。
 
 
 # D. Python 其他很有用的功能
@@ -812,8 +843,8 @@ Python 的預設情況下，使用 `from package import *` 時並不會幫你「
 
 透過 `pip` 你可以「踩在巨人的肩膀上」，他會自動幫你下載並安裝你想安裝的 Python 套件，使用方法如下：
 
-1. 使用 Google 或是 pip search django 找到 pip 能夠安裝的套件名稱
-1. （在你的 terminal/cmd 內）pip install <套件名稱>
+1. 使用 Google 或是 `pip search <關鍵字>` 找到 pip 能夠安裝的套件名稱
+1. （在你的 terminal/cmd 內）`pip install <套件名稱>`
 
 在後面的課程中，我們會需要使用 `pip` 來安裝像 Django、Scrapy 等 Python 套件。
 
@@ -884,7 +915,9 @@ python -m unittest <test_module.TestClass.test_method>
 python -m unittest -v <test_module>
 ```
 
-測試是一件很麻煩的事情，往往不同的測試會需要不同的測試環境，`unittest` 提供了 `setUp()` 方法，每一個獨立的測試開始之前會先呼叫 `setUp()` 方法，而在測試執行完成後，`unittest` 會自動執行 `tearDown()` 方法，我們可以在測試的類別中定義這兩個方法，並定義我們的測試需要的測試環境和清理測試環境的步驟（根據 CodeData 的教學，一個情境是，我們會在這兩個步驟中分別把一些資料進資料庫和把資料庫的資料清除）。
+測試是一件很麻煩的事情，往往不同的測試會需要不同的測試環境，`unittest` 提供了 `setUp()` 方法，每一個獨立的測試開始之前會先呼叫 `setUp()` 方法，而在測試執行完成後，`unittest` 會自動執行 `tearDown()` 方法。
+
+我們可以在測試的類別中定義這兩個方法，並定義我們的測試需要的測試環境和清理測試環境的步驟（根據 CodeData 的教學，一個情境是，我們會在這兩個步驟中分別把一些資料進資料庫和把資料庫的資料清除）。
 
 ```python
 import unittest
