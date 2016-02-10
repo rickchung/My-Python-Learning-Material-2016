@@ -912,6 +912,8 @@ src 下就放你的程式碼，而 doc 將會是你的文件資料夾。
 >export LANG=en_US.UTF-8
 >```
 
+## 設定 sphinx 抓取程式碼的路徑
+
 接下來我們要設定 `sphinx` 來讓他能夠找到我們的程式碼在哪裡，打開 `doc/source/conf.py` 這一個檔案，大約在 19~22 行的地方會有這樣的註解，找到之後加入下面那一行，用意是讓 `sphinx` 能夠找到我們撰寫的程式碼：
 
 ```python
@@ -922,6 +924,8 @@ src 下就放你的程式碼，而 doc 將會是你的文件資料夾。
 # 加入下面這一行
 sys.path.insert(0, os.path.abspath('../../src/'))
 ```
+
+## 開始寫文件
 
 再來我們要開始完成最基本的文件架構， `sphinx` 輸出的文件檔是根據在 source 資料夾中的各種 `.rst` 來建立的。
 
@@ -955,6 +959,8 @@ You can say something here.
    :members:
 
 ```
+
+## 產生文件結果（以 HTML 為例）
 
 完成之後，在 doc 資料夾內，執行 `make html`，等他跑完之後，你就可以在 doc/build/html 內找到 index.html，這就是 `sphinx` 產生出來的 HTML 文件檔。
 
@@ -1012,7 +1018,7 @@ class Account(object):
 
 為了產生出漂亮的說明文字，你還可以善用 `sphinx` 所用的文件語法 [reStructuredText](http://www.sphinx-doc.org/en/stable/rest.html) 來美化你的文件，不過這個部分就需要你自己去嘗試了 ˊ_>ˋ
 
-更多資料可以參考[shpinx 的官方教學](http://www.sphinx-doc.org/en/stable/tutorial.html)
+更多資料可以參考 [shpinx 的官方教學](http://www.sphinx-doc.org/en/stable/tutorial.html)
 
 
 # d4. 單元測試 Unit Test
