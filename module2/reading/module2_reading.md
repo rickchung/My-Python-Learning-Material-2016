@@ -229,6 +229,14 @@
 
 因為這個世界沒有正確答案，沒有所謂的 silver bullet 能夠解決所有問題，尤其在軟體高速發展的現代，在過去適用的一些開發方式可能不適合未來新的軟體，因此人們仍然在發掘更好的方法去管理和進行軟體工程。
 
+## a6. 總結
+
+軟體開發的整個流程會牽涉到各種不同的步驟，每一個步驟都有一些發展成熟的方法跟工具，我們這個課程主要強調 Python 這個程式語言的應用，因此不會花太多時間講這些跟分析設計本身有關東西。
+
+要在一篇文章之中講完所有的細節與內容幾乎是不可能的事情，不過不用擔心，未來在上系統分析與設計的時候就會唸到這些東西了 ( ´ ▽ ` )ﾉ
+
+在接下來的章節中會帶入一些 Python 的程式碼，讓大家稍微瞭解一下 Python 提供了什麼樣的方式，來滿足我們在設計與開發軟體時的各種需求，例如 Python 怎麼樣實現了 OO 的概念、提供了什麼東西輔助你開發時可能會需要的測試、模組套件、文檔撰寫等等。
+
 
 # B. 物件導向基礎概念
 
@@ -557,7 +565,7 @@ int main(void) {
 
 # C. 物件導向程式設計範例 Object Oriented Programming
 
-在這一個單元裡我們會一步一步帶使用者看如何使用物件導向的方式來寫 module 1 的 exercise。
+我會把這一個單元做成 module 2 的作業，一步一步帶大家看怎麼樣用物件導向的方式來組織 module 1 的 exercise。
 
 建議可以先稍微瀏覽完下面的 d2 模組與套件 的單元之後再來看這一個範例，因為在範例中會用到裡面的一些概念。
 
@@ -811,6 +819,8 @@ Python 的預設情況下，使用 `from package import *` 時並不會幫你「
 
 >注意，有些人如果曾經裝過 Python 2 的話，直接用 `pip` 的指令可能會呼叫到 Python 2 的 `pip`，你可以使用 `pip -V` 這一個指令來看你的 `pip` 對應到的是哪一個版本的 Python，如果不是 Python 3 的話你可能會需要下 `pip3` 來取用 Python 3 版本的 `pip`
 
+>其實也可以讓你上傳你自己的套件，不過在課程中不會用到，這個你有需要的話再去查就好了。
+
 
 # d3. 撰寫文件 Documentation by sphinx
 
@@ -822,8 +832,96 @@ Python 的預設情況下，使用 `from package import *` 時並不會幫你「
 
 # d4. 單元測試 Unit Test
 
-- http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/
-- https://docs.python.org/3.4/library/unittest.html
+Python 的 `unittest` 模組提供了一個與 JUnit 類似的測試框架，他能夠幫助你建立一個自動化、統一的測試環境。
+
+來自[官方文件](https://docs.python.org/3.4/library/unittest.html)的範例：
+
+```python
+import unittest
+
+class TestStringMethods(unittest.TestCase):
+    
+    def test_upper(self):
+        # 用於測試結果是不是我們所預期的
+        self.assertEqual('foo'.upper(), 'FOO')
+
+    def test_isupper(self):
+        # 用於測試 True or False 的狀態
+        self.assertTure('FOO'.isupper())
+        self.assertFalse('Foo'.isupper())
+
+    def test_split(self):
+        s = 'hello world'
+        self.assertEqual(s.split(), ['hello', 'world'])
+        # 用於測試某個特定的例外有無發生
+        with self.assertRaises(TypeError):  
+            s.split(2)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+直接運行這一個 script，就能夠完成最基本的單元測試：
+
+```
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+OK
+```
+
+你還可以使用命令列參數的方式來使用不同的方法來操作測試
+
+```
+# 只測試某些模組
+python -m unittest <test_module1> <test_module2>
+# 只用某個模組內的某個 class 進行測試
+python -m unittest <test_module.TestClass>
+# 只測試某個模組內某個 class 內的某個 test method
+python -m unittest <test_module.TestClass.test_method>
+# 輸出詳細的測試結果
+python -m unittest -v <test_module>
+```
+
+測試是一件很麻煩的事情，往往不同的測試會需要不同的測試環境，`unittest` 提供了 `setUp()` 方法，每一個獨立的測試開始之前會先呼叫 `setUp()` 方法，而在測試執行完成後，`unittest` 會自動執行 `tearDown()` 方法，我們可以在測試的類別中定義這兩個方法，並定義我們的測試需要的測試環境和清理測試環境的步驟（根據 CodeData 的教學，一個情境是，我們會在這兩個步驟中分別把一些資料進資料庫和把資料庫的資料清除）。
+
+```python
+import unittest
+
+class YourTestCaseName(unittest.TestCase):
+    def setUp(self):
+        # Prepare the environment
+
+    def test_method_1(self):
+        # Do some tests
+        # ...
+
+    def test_method_2(self):
+        # Do some tests
+        # ...
+    
+    def tearDown(self):
+        # Clean the test environment
+
+```
+
+上面的範例中，我們繼承了 `unittest.TestCase` 後定義出來的都被稱為 test case，當我們有很多個 test caeses 後，我們也可以透過 `unittest.TestSuite` 來組合不同 test case 中不同的測試方法，來滿足我們的測試需求。
+
+```python
+def suite():
+    # 組合新的測試組
+    suite = unittest.TestSuite()
+    suite.addTest(TestStringMethods('test_upper'))
+    suite.addTest(TestStringMethods('test_isupper'))
+    return suite
+
+if __name__ == '__main__';
+    # 使用 TextTestRunner 來執行客製化的測試組
+    unittest.TextTestRunner().run(suite())
+```
+
+就如同 Python 中其他的功能一樣，單元測試也有很多不同的操作方式跟各種各樣的功能，這邊只能講一些最基本的用法，如果你有興趣的話可以看看[官方的文件](https://docs.python.org/3.4/library/unittest.html)，或者 [CodeData 的教學](http://www.codedata.com.tw/python/python-tutorial-the-6th-class-1-unittest/)。
 
 
 # d5. 檔案讀寫與參數傳遞
@@ -1000,6 +1098,9 @@ Git 是一種版本管理工具，而 GitHub 可以說是在網路上的 Git 資
 - 並不是用了 Git 之後你的程式碼就會自動被整理好，你仍然需要花時間跟你的團隊溝通跟討論，並且建立管理的規則
 - 建議現在開始練習使用 Git 並練習把自己的作品放到 GitHub 上
 
+>在大概瞭解 git 怎麼用之後，你就可以用 git 來下載我們的課程資料，使用 `git clone https://github.com/rickchung/2016_Python_Test.git` 即可。
+>
+>想要更新課程資料時只要 `git pull` 就會自動更新課程資料了。
 
 其他參考資料：
 
