@@ -86,7 +86,11 @@
 
 ![class diagram 1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/problems/m2_class_diagram_1.png)
 
->第一次畫 UML 圖的時候會覺得很混亂看不懂是正常的，你可能會需要邊看符號對應表邊理解到底 class diagram 在畫什麼，但多畫幾次就會慢慢習慣 ( ´ ▽ ` )ﾉ
+有幾件要注意的事情：
+
+- 第一次畫 UML 圖的時候會覺得很混亂看不懂是正常的，你可能會需要邊看符號對應表邊理解到底 class diagram 在畫什麼，但多畫幾次就會慢慢習慣 ( ´ ▽ ` )ﾉ
+- 因為我們的問題其實有點小，所以圖其實不會太複雜，主要是給大家當做入門指引
+- 我畫的圖可能沒有很好，抱歉 (´Д` )
 
 ### Finding Associations Between Objects
 
