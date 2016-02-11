@@ -106,7 +106,7 @@
 
 同樣的我們可以使用前面的 class diagram，為每一個類別的內部加入詳細的定義。
 
-（詳細的類別架構圖）......
+![class diagram 2](https://github.com/rickchung/2016_Python_Test/blob/master/module2/problems/m2_class_diagram_2.png)
 
 ## Exercise 3 - 物件導向實作 Object-Oriented Implementation
 
