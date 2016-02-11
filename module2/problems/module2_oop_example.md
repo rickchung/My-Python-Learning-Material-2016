@@ -1,4 +1,4 @@
-# 物件導向程式設計範例 Object Oriented Programming
+# 物件導向程式設計 Object Oriented Programming
 
 ## 複習流程：分析、設計與實作
 
@@ -24,7 +24,7 @@
 - 寫一些測試，看看程式碼能不能夠正確運行
 - 可能會需要回到分析階段，週而復始
 
-另外這一份練習基本上不會有標準答案，只是希望透過這樣的步驟讓大家稍微理解到物件導向的程式開發是什麼樣子，這不是解決問題的唯一方法，大家要習慣沒有標準答案的世界 ( ´ ▽ ` )ﾉ
+這一份練習基本上不會有標準答案（或是某一個格式的的輸入輸出結果），只是希望透過這樣的步驟讓大家稍微理解到物件導向的程式開發是什麼樣子，這不是解決問題的唯一方法，大家要習慣沒有標準答案的世界 ( ´ ▽ ` )ﾉ
 
 ## Exercise 1 - 物件導向分析 Object-Oriented Analysis
 
@@ -51,6 +51,7 @@
 - 根據檔名對應表來修改檔名
 - 輸出修改好檔名的檔案
 - 檔案要輸出到不同的資料夾中
+- 能指定輸入輸出檔案位置
 - （其他需求）......
 
 ### Extracting Key Concepts and Identifying Objects
@@ -68,32 +69,44 @@
 這時你可能會發現，這些重要的關鍵點其實就是我們的「物件」，在接下來的設計階段我們要利用這些物件來定義我們的類別架構。
 
 
-> 題外話：其實在分析的時候你為了要釐清概念，可能會需要畫一些使用案例圖（use case）之類的東西，來幫助你跟你的顧客溝通。
+> 題外話：實際上在分析的時候你為了要釐清概念，可能會需要畫一些使用案例圖（use case）之類的東西，來幫助你跟你的顧客溝通。
 
 
 ## Exercise 2 - 物件導向設計 Object-Oriented Design
 
 ### Constructing System Architecture and Defining Object Hierarchy
 
-在有了第一階段的物件之後，我們就可以把物件「抽象化」成為類別，並找出不同的類別之間的關聯，組織出所謂的「class hierarchy」。
+在有了第一階段的物件之後，就可以把物件「抽象化」成為類別，並找出不同的類別之間的關聯。
 
-這時候你可能會需要畫一些圖，通常我們會使用的作圖工具是 class diagram。
+你可以用最舒服的姿勢來思考怎麼樣把物件化為類別、把類別建構成有組織的架構。
+
+不過呢，通常為了讓整個專案有統一的溝通方式，我們會用 UML 等作圖工具，在這一個階段會使用的是 [class diagram](http://www.ithome.com.tw/node/62186)（這一篇文章有一點點混亂，主要希望大家看一下 UML 的各種符號代表什麼意思，如果不太理解的話我再解釋）。
+
+[IBM 的這一篇](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/) 似乎比較有架構一點，給大家參考看看。
 
 （類別架構圖）......
 
+>第一次畫 UML 圖的時候會覺得很混亂看不懂是正常的，你可能會需要邊看符號對應表邊理解到底 class diagram 在畫什麼，但多畫幾次就會慢慢習慣 ( ´ ▽ ` )ﾉ
+
 ### Finding Associations Between Objects
+
+接著我們要定義不同的類別物件之間「互動的細節」，例如完成一件任務的每一個步驟、牽涉到哪一些物件。
+
+同樣你可以使用以自己的「正確姿勢」來處理，如果你不知道該如何開始的話可以嘗試使用 UML 裡面的 sequence diagram。
 
 （一些流程圖）......
 
 ### Object Details, Attributes and Methods
 
-在有了類別架構以及一些物件互動的概念後，我們就可以為每一個類別定義詳細的內容，例如物件有什麼樣的方法（methods）以及什麼屬性（fields）。
+類別架構以及一些物件互動的概念完成之後，接下來就可以為每一個類別定義詳細的內容，例如類別有什麼樣的方法（methods）以及什麼屬性（fields）。
 
 同樣的我們可以使用前面的 class diagram，為每一個類別的內部加入詳細的定義。
 
 （詳細的類別架構圖）......
 
 ## Exercise 3 - 物件導向實作 Object-Oriented Implementation
+
+實作的階段，你就可以開始根據你分析設計出來的結果來寫程式碼了 ~~（如果你出去應徵寫程式碼的碼農的話可能只會做到這個）~~。
 
 ### Coding with Python
 
@@ -210,8 +223,8 @@ Use Case Diagram
 
 Class Diagram
 
+- http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/
 - https://zh.wikipedia.org/wiki/%E9%A1%9E%E5%88%A5%E5%9C%96
-- http://www.tutorialspoint.com/uml/uml_class_diagram.htm
 
 ### 流程設計常見工具：Sequence Diagram (UML), Activity Diagram (UML)
 
