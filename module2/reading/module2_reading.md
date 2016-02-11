@@ -297,8 +297,6 @@
 - 狀態被稱為 fields、attributes、features 或 variables
 - 行為被稱為 methods 或 functions，有時候也指操作方法
 
-<img src="object.png" alt="物件圖">
-
 還記得我們說過「在 Python 裡面所有東西都是物件」這件事嗎？
 
 ```python

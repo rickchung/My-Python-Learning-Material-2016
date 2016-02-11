@@ -84,7 +84,7 @@
 
 [IBM 的這一篇](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/) 似乎比較有架構一點，給大家參考看看。
 
-（類別架構圖）......
+![class diagram 1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/m2_class_diagram_1.png)
 
 >第一次畫 UML 圖的時候會覺得很混亂看不懂是正常的，你可能會需要邊看符號對應表邊理解到底 class diagram 在畫什麼，但多畫幾次就會慢慢習慣 ( ´ ▽ ` )ﾉ
 
@@ -106,7 +106,7 @@
 
 ## Exercise 3 - 物件導向實作 Object-Oriented Implementation
 
-實作的階段，你就可以開始根據你分析設計出來的結果來寫程式碼了 ~~（如果你出去應徵寫程式碼的碼農的話可能只會做到這個）~~。
+實作的階段，你就可以開始根據你分析設計出來的結果來寫程式碼了。 ~~（如果你出去應徵寫程式碼的碼農的話可能只會做到這個）~~。
 
 ### Coding with Python
 
@@ -204,7 +204,12 @@ class SampleClass(object):
 當然你也要記得為你的程式寫適當的測試，如果你不記得要怎麼樣寫測試的話可以回去看一下 reading。
 
 
-## 補充：分析與設計作圖工具
+## 畫圖軟體
+
+你可以用筆跟紙畫，也可以用軟體畫，在這個範例裡我用的是 [ProcessOn](https://www.processon.com)。
+
+
+## 補充：分析與設計作圖工具（抱歉我只能先放一些連結，因為這真的太多太多了 (´Д` )）
 
 UML 是一個被廣泛使用的作圖工具，但他不是指一個單一圖，UML 裡面包含了能夠滿足各種需求的圖案工具。
 
