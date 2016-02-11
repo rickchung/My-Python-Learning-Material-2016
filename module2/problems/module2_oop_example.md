@@ -84,7 +84,7 @@
 
 [IBM 的這一篇](http://www.ibm.com/developerworks/rational/library/content/RationalEdge/sep04/bell/) 似乎比較有架構一點，給大家參考看看。
 
-![class diagram 1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/reading/m2_class_diagram_1.png)
+![class diagram 1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/problems/m2_class_diagram_1.png)
 
 >第一次畫 UML 圖的時候會覺得很混亂看不懂是正常的，你可能會需要邊看符號對應表邊理解到底 class diagram 在畫什麼，但多畫幾次就會慢慢習慣 ( ´ ▽ ` )ﾉ
 
