@@ -92,6 +92,89 @@
 
 ### Coding with Python
 
+首先你會需要為你的專案建立資料夾結構，方便分類不同檔案，大概像這樣：
+
+（資料夾結構圖）......
+
+接著你就可以根據前面的結果，一個一個去構造你的程式啦 ( ´ ▽ ` )ﾉ
+
+### Documentation
+
+為了要讓文件能夠靠 `sphinx` 自動產生出來，你必須要維持良好的註解習慣，但究竟什麼才是良好的註解習慣呢？通常在一個團隊裡面你們要有統一的註解規則，這樣才能讓你們的程式碼有一致的風格。
+
+如果你不確定到底應該要怎麼寫註解的話，這裡有一些來自 [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#Comments) 的註解風格可以讓你模仿。
+
+針對 function 的註解風格：
+
+> "As used in this section "function" applies to methods, function, and generators.
+> A function must have a docstring, unless it meets all of the following criteria: "
+> - not externally visible
+- very short
+- obvious
+>
+
+```python
+def fetch_bigtable_rows(big_table, keys, other_silly_variable=None):
+    """Fetches rows from a Bigtable.
+
+    Retrieves rows pertaining to the given keys from the Table instance
+    represented by big_table.  Silly things may happen if
+    other_silly_variable is not None.
+
+    Args:
+        big_table: An open Bigtable Table instance.
+        keys: A sequence of strings representing the key of each table row
+            to fetch.
+        other_silly_variable: Another optional variable, that has a much
+            longer name than the other args, and which does nothing.
+
+    Returns:
+        A dict mapping keys to the corresponding table row data
+        fetched. Each row is represented as a tuple of strings. For
+        example:
+
+        {'Serak': ('Rigel VII', 'Preparer'),
+         'Zim': ('Irk', 'Invader'),
+         'Lrrr': ('Omicron Persei 8', 'Emperor')}
+
+        If a key from the keys argument is missing from the dictionary,
+        then that row was not found in the table.
+
+    Raises:
+        IOError: An error occurred accessing the bigtable.Table object.
+    """
+    pass
+```
+
+針對 class 的註解風格：
+
+>Classes should have a doc string below the class definition describing the class. If your class has public attributes, they should be documented here in an Attributes section and follow the same formatting as a function's Args section. 
+
+```python
+class SampleClass(object):
+    """Summary of class here.
+
+    Longer class information....
+    Longer class information....
+
+    Attributes:
+        likes_spam: A boolean indicating if we like SPAM or not.
+        eggs: An integer count of the eggs we have laid.
+    """
+
+    def __init__(self, likes_spam=False):
+        """Inits SampleClass with blah."""
+        self.likes_spam = likes_spam
+        self.eggs = 0
+
+    def public_method(self):
+        """Performs operation blah."""
+```
+
+### Writing Test
+
+當然你也要記得為你的程式寫適當的測試，如果你不記得要怎麼樣寫測試的話可以回去看一下 reading。
+
 
 ## 補充：分析與設計作圖工具
 

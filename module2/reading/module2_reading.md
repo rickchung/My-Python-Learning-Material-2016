@@ -107,6 +107,9 @@
 * [D. Python 其他很有用的功能](#d.-python-其他很有用的功能)
 * [d1. 不同以往的程式流程：例外 Exception](#d1.-不同以往的程式流程：例外-exception)
 * [d2. 模組與套件的概念 Module and Package](#d2.-模組與套件的概念-module-and-package)
+  * [模組](#模組)
+  * [套件](#套件)
+  * [使用套件管理工具 pip](#使用套件管理工具-pip)
 * [d3. 撰寫文件 Documentation by sphinx](#d3.-撰寫文件-documentation-by-sphinx)
 * [d4. 單元測試 Unit Test](#d4.-單元測試-unit-test)
 * [d5. 檔案讀寫與參數傳遞](#d5.-檔案讀寫與參數傳遞)
@@ -118,11 +121,11 @@
   * [深入理解 Python Class](#深入理解-python-class)
   * [Python 有私有成員（Private Member）的概念嗎？](#python-有私有成員（private-member）的概念嗎？)
   * [pip 與 easy_install](#pip-與-easy_install)
+  * [關於 Module 的 Search Path](#關於-module-的-search-path)
   * [Python Decorator](#python-decorator)
   * [開發流程重不重要？](#開發流程重不重要？)
   * [敏捷開發流程](#敏捷開發流程)
   * [改善既有程式的設計 - 軟體重構 Refactoring](#改善既有程式的設計---軟體重構-refactoring)
-
 
 ---
 
@@ -1353,6 +1356,24 @@ Git 是一種版本管理工具，而 GitHub 可以說是在網路上的 Git 資
 [Python Packaging User Guide - pip vs easy_install](http://python-packaging-user-guide.readthedocs.org/en/latest/pip_easy_install/)
 
 [Why use pip over easy_install?](http://stackoverflow.com/a/3220572)
+
+## 關於 Module 的 Search Path
+
+有些人可能會疑惑，Python 是怎麼樣知道我們想要 import 的模組在哪裡呢？
+
+在官方文件裡面有詳細的解釋：
+
+>When a module named spam is imported, the interpreter first searches for a built-in module with that name. If not found, it then searches for a file named spam.py in a list of directories given by the variable sys.path. sys.path is initialized from these locations:
+>
+>- The directory containing the input script (or the current directory when no file is specified).
+- PYTHONPATH (a list of directory names, with the same syntax as the shell variable PATH).
+- The installation-dependent default.
+
+需要注意的是，盡量避免使用*系統內建的模組名稱*來為你的模組命名。
+
+更多請參考：
+
+https://docs.python.org/3.4/tutorial/modules.html#the-module-search-path
 
 ## Python Decorator 
 
