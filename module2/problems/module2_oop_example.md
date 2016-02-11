@@ -1,33 +1,100 @@
 # 物件導向程式設計範例 Object Oriented Programming
 
+記得我們在 reading 1 裡面的問題嗎？
+
+>才上班沒兩個禮拜的你是一家公司的系統助理，有一天老闆叫你進入辦公室，告訴你公司在上一次的系統更新後文件系統出了差錯，所有的文件都亂了序，檔名也發生了一些錯亂，那些原本應該是 「地區_使用者_2016-01-16.txt」 的檔案全部都被改了檔名，某些檔案的日期發生了錯誤，某些檔案的地區和使用者名稱變成了數字，例如「1_2_2012-01-14.txt」，這些混亂的檔案高達數百個。老闆相信你這個剛從資管系畢業的高材生，應該能很容易的就把這個問題處理好，因此命令你在今天之內把所有的檔名都變回去原本的樣子，並按照每個號碼對應的檔案所有者以及地區名稱將其分入不同的資料夾中，他希望在明天上班時能看到我們的文件系統一如過往。
+
+現在我們要沿用這一個問題，但是使用物件導向的方式來處理。
+
 ## 複習流程：分析、設計與實作
 
-## 第一步 物件導向分析 Object-Oriented Analysis
+在 reading 中我們提到了程式設計有很多不同的開發流程，現在我們要使用的是簡化版的開發流程，只使用分析、設計跟實作這三個步驟。
 
-### 常用工具介紹：Use Case (UML), Class Diagram (UML)
+### 分析
+
+- 確立你的問題
+- 找出問題中主要的癥結點以及需求
+- 規劃出要滿足需求會有哪些物件，以及這些物件會怎麼樣產生互動
+- 物件不一定是真實的物件，也可能是抽象的概念
+
+### 設計
+
+- 為分析階段的物件定義細節與操作介面
+- 研究解決問題的流程，試著組織物件之間的互動來滿足需求
+- 規劃系統架構，找出不同的物件之間能夠以什麼樣的方式組織
+- 思考一些實作上的限制
+
+### 實作
+
+- 寫程式碼，同時檢視分析與設計是否有遺漏之處
+- 寫一些測試，看看程式碼能不能夠正確運行
+- 可能會需要回到分析階段，週而復始
+
+另外這一份練習基本上不會有標準答案，只是希望透過這樣的步驟讓大家稍微理解到物件導向的程式開發是什麼樣子，這不是解決問題的唯一方法，大家要習慣沒有標準答案的世界 ( ´ ▽ ` )ﾉ
+
+## Exercise 1 - 物件導向分析 Object-Oriented Analysis
 
 ### Problem Identification
 
+首先，要確定我們的問題究竟為何，在現實中你可能會需要去訪談你的顧客，花一些時間來瞭解並釐清對方的癥結點在哪裡。
+
+但因為我們沒有真實的顧客，所以在這裡我直接給予一些問題描述：
+
+（問題敘述）......
+
 ### Requirement Identification
 
-### Extracting Key Concepts
+>在實際的情況中問題分析和需求分析可能會混在一起，這邊為了說明清楚所以把他們分開來看
 
-### Identifying Objects
+有了問題描述之後，你就可以進行需求的分析。
 
-## 第二步 物件導向設計 Object-Oriented Design
+一種常見的做法是「名詞-動詞」法，從問題中找出各式名詞以及動詞，來歸納整個問題（這個做法還可以幫助你取一些方法或變數的名稱）。
 
-### 常見工具介紹：Sequence Diagram (UML), Activity Diagram (UML) and Data Flow Diagram
+你可以用條列式的方式把問題中的需求攤開來看：
 
-### Constructing System Architecture
+（需求清單）......
+
+### Extracting Key Concepts and Identifying Objects
+
+接著我們要從需求之中找出「關鍵點」，這個關鍵點可能是能夠滿足需求的「重要人物」或者「重要的概念」，如果你發現某些概念或東西對你來說不是這麼的熟悉，你可能還會需要進行一些研究。
+
+（關鍵點）......
+
+這時你可能會發現，這些重要的關鍵點其實就是我們的「物件」，在接下來的設計階段我們要利用這些物件來定義我們的類別架構。
+
+
+> 題外話：其實在分析的時候你為了要釐清概念，可能會需要畫一些使用案例圖（use case）之類的東西，來幫助你跟你的顧客溝通。
+
+
+## Exercise 2 - 物件導向設計 Object-Oriented Design
+
+### Constructing System Architecture and Defining Object Hierarchy
+
+在有了第一階段的物件之後，我們就可以把物件「抽象化」成為類別，並找出不同的類別之間的關聯，組織出所謂的「class hierarchy」。
+
+這時候你可能會需要畫一些圖，通常我們會使用的作圖工具是 class diagram。
+
+（類別架構圖）......
 
 ### Finding Associations Between Objects
 
-### Defining Object Hierarchy
+（一些流程圖）......
 
 ### Object Details, Attributes and Methods
 
-## 第三步 物件導向實作 Object-Oriented Implementation
+在有了類別架構以及一些物件互動的概念後，我們就可以為每一個類別定義詳細的內容，例如物件有什麼樣的方法（methods）以及什麼屬性（fields）。
 
-### Python Class
+同樣的我們可以使用前面的 class diagram，為每一個類別的內部加入詳細的定義。
 
-## 補充：分析與設計作圖工具 UML
+（詳細的類別架構圖）......
+
+## Exercise 3 - 物件導向實作 Object-Oriented Implementation
+
+### Coding with Python
+
+
+## 補充：分析與設計作圖工具
+
+### 物件分析常用工具：Use Case (UML), Class Diagram (UML)
+
+### 流程設計常見工具：Sequence Diagram (UML), Activity Diagram (UML) and Data Flow Diagram
