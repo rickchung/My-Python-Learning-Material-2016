@@ -1,5 +1,7 @@
 # 物件導向程式設計 Object Oriented Programming
 
+這個作業的目的是希望同學能夠依照一個範例的程式設計流程來撰寫一支物件導向程式。
+
 ## 複習流程：分析、設計與實作
 
 在 reading 中我們提到了程式設計有很多不同的開發流程，現在我們要使用的是簡化版的開發流程，只使用分析、設計跟實作這三個步驟。
@@ -27,6 +29,8 @@
 這一份練習基本上不會有標準答案（或是某一個格式的的輸入輸出結果），只是希望透過這樣的步驟讓大家稍微理解到物件導向的程式開發是什麼樣子，這不是解決問題的唯一方法，大家要習慣沒有標準答案的世界 ( ´ ▽ ` )ﾉ
 
 ## Exercise 1 - 物件導向分析 Object-Oriented Analysis
+
+在這一個部分你需要依照一個一個步驟去完成物件導向分析的工作。
 
 ### Problem Identification
 
@@ -74,6 +78,8 @@
 
 ## Exercise 2 - 物件導向設計 Object-Oriented Design
 
+緊接著分析之後，exercise 2 中會帶你一步一步操作設計的概念。
+
 ### Constructing System Architecture and Defining Object Hierarchy
 
 在有了第一階段的物件之後，就可以把物件「抽象化」成為類別，並找出不同的類別之間的關聯。
@@ -96,9 +102,11 @@
 
 接著我們要定義不同的類別物件之間「互動的細節」，例如完成一件任務的每一個步驟、牽涉到哪一些物件。
 
-同樣你可以使用以自己的「正確姿勢」來處理，如果你不知道該如何開始的話可以嘗試使用 UML 裡面的 sequence diagram。
+同樣你可以用自己喜歡的方式來處理，如果你不知道該如何開始的話可以嘗試使用 UML 裡面的 sequence diagram。
 
-（一些流程圖）......
+這邊給一個 parser 與其他物件互動的範例：
+
+![sequence diagram 1](https://github.com/rickchung/2016_Python_Test/blob/master/module2/problems/m2_seq_diagram_1.png)
 
 ### Object Details, Attributes and Methods
 
