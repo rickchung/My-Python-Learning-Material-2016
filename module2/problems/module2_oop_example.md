@@ -92,11 +92,21 @@
 
 ### Coding with Python
 
-首先你會需要為你的專案建立資料夾結構，方便分類不同檔案，大概像這樣：
+首先你會需要為你的專案建立資料夾結構，方便分類不同檔案，這裡有一個範例，但你不一定要依照這個範例做：
 
-（資料夾結構圖）......
+```
+Project
+├── README.md   <-- 放專案說明文件
+├── docs        <-- 放文件檔
+├── scripts     <-- 放你的 Python scripts/modules
+└── tests       <-- 放你的測試模組等
+```
 
 接著你就可以根據前面的結果，一個一個去構造你的程式啦 ( ´ ▽ ` )ﾉ
+
+>究竟怎麼樣的專案資料夾結構適合你呢？
+>這一個問題其實很難回答，可以選用你跟你的團隊都用得舒服的架構就好
+>在 [這裡](http://stackoverflow.com/questions/193161/what-is-the-best-project-structure-for-a-python-application) 有一個討論串是討論資料夾結構的問題
 
 ### Documentation
 
@@ -178,6 +188,13 @@ class SampleClass(object):
 
 ## 補充：分析與設計作圖工具
 
+UML 是一個被廣泛使用的作圖工具，但他不是指一個單一圖，UML 裡面包含了能夠滿足各種需求的圖案工具。
+
+使用 UML 的好處是，他能夠給你一個統一的畫圖規範，不然在過去我們可能都是用自己的「藝術作品」來跟別人講解程式的概念，結果就是每個人畫出來的東西都不一樣，也很難做整理。
+
+通常是依據需求選用啦 ( ´ ▽ ` )ﾉ
+
 ### 物件分析常用工具：Use Case (UML), Class Diagram (UML)
 
 ### 流程設計常見工具：Sequence Diagram (UML), Activity Diagram (UML) and Data Flow Diagram
+
