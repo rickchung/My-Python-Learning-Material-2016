@@ -126,7 +126,7 @@
 
 接著我們要定義不同的類別物件之間「互動的細節」，例如完成一件任務的每一個步驟、牽涉到哪一些物件。
 
-同樣你可以用自己喜歡的方式來處理，如果你不知道該如何開始的話可以嘗試使用 UML 裡面的 sequence diagram。
+同樣你可以用自己喜歡的方式來處理，如果你不知道該如何開始的話可以嘗試使用 UML 裡面的 sequence diagram（[這裡有一些教學](http://www.ibm.com/developerworks/rational/library/3101.html)）。
 
 這邊給一個 parser 與其他物件互動的範例：
 
