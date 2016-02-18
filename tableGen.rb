@@ -2,7 +2,9 @@
 
 # This script is from http://stackoverflow.com/a/22131019
 
-File.open("module2_reading.md", 'r') do |f|
+inputfile = ARGV[0]
+
+File.open(inputfile, 'r') do |f|
   f.each_line do |line|
     forbidden_words = ['Table of contents', 'define', 'pragma']
     next if !line.start_with?("#") || forbidden_words.any? { |w| line =~ /#{w}/ }
