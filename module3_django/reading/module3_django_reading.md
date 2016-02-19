@@ -162,7 +162,22 @@ Django 就是一個利用 Python 撰寫的 Web application framework。
 ==================================-->
 # B. MVC 設計概念: Model, View and Controller
 
+所謂的 MVC 設計是將一個應用程式分成三個元件，Model、View 和 Controller，這是一種最近滿流行的網頁程式設計架構，三個元件在程式中各司其職，彼此互不衝突，這樣的特性讓開發程式的程序猿能夠很好地規劃開發的工作。
+
+這三個元件的功能簡述如下：
+
+- Model：負責資料的操作介面和抽象化，讓程序猿不需要針對不同的資料庫撰寫不同的程式碼
+- View：負責介面的呈現
+- Controller：負責結合 model 和 view，或者處理使用者的互動（輸入輸出）
+
 ## b1. Django 中的 MVC: MTV
+
+在 django 中我們看到的 MVC 被稱為 MTV ，分別是 Model、Template 和 View，而他們的任務跟 MVC 中的三個元件的任務略有不同：
+
+- Model：與 MVC 中的 model 類似
+- Template：與 MVC 中的 view 較接近，專注於使用者介面的呈現
+- View：與 MVC 中的 controller 較為接近，負責連結 model、template 以及使用者的互動
+
 <!--====  End of MVC Concept  ====-->
 
 
