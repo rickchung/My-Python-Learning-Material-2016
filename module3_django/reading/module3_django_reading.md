@@ -178,6 +178,8 @@ Django 就是一個利用 Python 撰寫的 Web application framework。
 - Template：與 MVC 中的 view 較接近，專注於使用者介面的呈現
 - View：與 MVC 中的 controller 較為接近，負責連結 model、template 以及使用者的互動
 
+使用 django 來撰寫程式，就是從這三個元件出發。
+
 <!--====  End of MVC Concept  ====-->
 
 
@@ -374,7 +376,7 @@ urlpatterns = [
 - [Server] Send the response back to the client
 - [Client] See "Hello world!"
 
-(request/response 流程圖)
+(request/response 流程圖之後補)
 
 ## c8. 小結（Time to take a break）
 
@@ -868,8 +870,6 @@ http://127.0.0.1:8000/stats/region/12345/
 
 Regular expression, regex 正則表達式是一種常用的「字串搜尋」方法，透過預先定義的符號，我們可以檢查任何字串是不是有符合某種規則。
 
-(之後補)
-
 regex 還滿好用的，建議花一點時間學習一下。
 
 [參考資料](https://docs.python.org/3.4/howto/regex.html)
@@ -938,6 +938,15 @@ def region(request, region_name):
 ![view_ex4.png](view_ex4.png)
 
 ## e3. Django views 運作流程圖例
+
+- .... Same as above illustration
+- [Djengo-app] Interprete the request URL by app's URLConf
+- [Django-app] URL matches, redirect to the specified view function
+- [Django-view] Passes the request to the matched view function
+- [Django-view] view function will return the parsed HTTP response
+- [Django] Send the response to the host server
+- [Server] Send the response back to the client
+- [Client] See "Hello world!"
 
 ## e4. View 小結（10 mins break and we'll back）
 
