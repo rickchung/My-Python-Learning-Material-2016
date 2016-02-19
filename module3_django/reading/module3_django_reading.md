@@ -846,17 +846,76 @@ regex 還滿好用的，建議花一點時間學習一下。
 
 接下來我們要讓 view 能夠執行一些比較有用的功能，例如顯示候選人資料、投票結果，或者在使用者鍵入不合法的 URL 時顯示錯誤訊息。
 
-從 view 裡面抓取資料庫的方法同樣是使用 models，接下來我們要讓 `results` 能夠在接收到不同 type 的參數，並從資料庫中提取對應的資料：
+從 view 裡面抓取資料庫的方法同樣是使用 models，接下來我們要讓 views 能夠在接收到不同的參數時，從資料庫中提取對應的資料，並在找不到資料時引發 404 錯誤：
 
 ```python
+from django.http import Http404       # import Http404 這一個 exception
 
+from .models import Candidate, Region, Vote
+
+# Create your views here.
+
+def index(request):
+    """ Show the index page
+    """
+    # 從資料庫中抓取 Candidate 和 Rrgion 的資料
+
+    candidate_list = Candidate.objects.all()
+    region_list = Region.objects.all()
+
+    # 製作 response content
+
+    response = "Candidates: {clist} <br>Regions: {rlist}".format(
+        clist=', '.join([c.candidate_name for c in candidate_list]), 
+        rlist=', '.join([r.region_name for r in region_list]))
+
+    return HttpResponse(response)
+
+def candidate(request, candidate_id): # 這裡的參數將會從 URLConf 解析而來
+    """ Show the details of candidate
+    """
+    try:
+        c = Candidate.objects.get(id=candidate_id)
+    except Candidate.DoesNotExist:    # 在找不到資料時引發 404 錯誤
+        raise Http404('Candidate of id {id} does not exist.'.format(id=candidate_id))
+
+    return HttpResponse("{name}, {gender}, {age}".format(
+        name=c.candidate_name,
+        gender=c.candidate_gender,
+        age=c.candidate_age))
+
+def region(request, region_name):
+    """ Show the vote results of one region
+    """
+    try:
+        r = Region.objects.get(region_name=region_name)
+    except Region.DoesNotExist:     # 在找不到資料時引發 404 錯誤 
+        raise Http404('Region of name {name} does not exist.'.format(name=region_name))
+
+    return HttpResponse("Region: {name}".format(name=r.region_name))
 ```
 
-## 處理 POST, GET 資料
+完成之後，一樣 `runserver` ，並測試看看你的網頁程式能不能夠正確運作：
 
-## 使用者認證機制
+![view_ex1.png](view_ex1.png)
+![view_ex2.png](view_ex2.png)
+![view_ex3.png](view_ex3.png)
+
+在找不到資料的時候會顯示 404 錯誤頁：
+
+![view_ex4.png](view_ex4.png)
+
+## Django views 運作流程圖例
 
 ## View 小結（10 mins break and we'll back）
+
+在這一個章節我們看到了要怎麼樣透過 URL 來傳遞參數給 view，並透過 models 來搜尋到我們想要的資料，並顯示在網頁上。
+
+到了這邊你大概能夠理解 django 的網頁程式大概是怎麼運作的了吧？
+
+不過我們發現到，只是回傳一個「字串」到網頁上非常的不足，甚至有些人會覺得那根本不能算是一個網頁（畢竟連 html 標籤都沒有），在接下來的章節我們將看到 django 中非常強大的一個功能：template，透過 HTML 與 template language 的結合，我們便能夠讓 django 顯示出我們平常所見的網頁樣式，還能夠動態地修改網頁的內容。
+
+
 <!--====  End of View  ====-->
 
 
@@ -879,14 +938,18 @@ regex 還滿好用的，建議花一點時間學習一下。
 =            Static Files            =
 ===================================-->
 # 處理 CSS 檔案 (static files)
+
+# 套用 Bootstrap（補充）
 <!--====  End of Static Files  ====-->
 
 
 # Django 提供的其他功能
 
+## 處理 POST, GET 資料
+
 ## Django 表單
 
-## 404 Not Found
+## 使用者認證機制
 
 
 # 把你的 Django 程式部署到網路上
