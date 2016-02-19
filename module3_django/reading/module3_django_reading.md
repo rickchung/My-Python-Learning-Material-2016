@@ -978,7 +978,7 @@ stats
 
 在 `stats/templates/stats/` 下建立 index.html，並填入以下的內容：
 
-```html
+```django
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1087,6 +1087,34 @@ def index(request):
 
 通常我們會用這一種寫法，能懶則懶嘛。
 
+## Removing hardcoded URLs in our templates
+
+在 template 中寫死其他地方的連結並不是一個好主意，當你哪天心血來潮想要修改 URL 時會造成很多的問題。
+
+django template 中有提供「動態抓取」URL 的方法，使用 URLConf 中 url 的 `name` 即可抓到對應的 URL：
+
+In your urls.py
+
+```python
+# ex: /stats/candidate/{id}/
+url(r'^candidate/(?P<candidate_id>[0-9]+)/$', views.candidate, name='candidate'),
+# ex: /stats/region/{name}/
+url(r'^region/(?P<region_name>[a-zA-Z]+)/$', views.region, name='region'),
+```
+
+In index.html
+
+```django
+<!-- Other code -->
+{% for i in candidate_list %}
+  <!-- 注意，你不需要使用 {{ }} 來取得變數，直接放在 URL name 的後面即可 -->
+  <li><a href="{% url 'candidate' i.id %}">{{i.candidate_name}}</a></li>
+{% endfor %}
+<!-- Other code -->
+```
+
+請參考 [這裡](https://docs.djangoproject.com/en/1.9/intro/tutorial03/#removing-hardcoded-urls-in-templates)
+
 ## Javascript 要怎麼辦？（補充）
 
 這邊是做一個小補充，怕有些人不太明白 JavaScript 要怎麼跟 django template 一起使用。
@@ -1121,7 +1149,55 @@ JavaScript 是在「客戶端」執行的程式碼，也就是說 django templat
 ===================================-->
 # 處理 CSS 檔案 (static files)
 
-# 套用 Bootstrap（補充）
+在這一個章節將會介紹如何在 django 中處理 static files，我會以 CSS 為例。
+
+如果你的專案很小，那你可以選擇把 static files 放在任何地方，只要你找得到就好。
+
+但如果你的專案非常龐大，散亂各地的 static files 是非常難以管理的，好在 django 提供了一個機制來統一管理 static files。
+
+首先，在你的 app 資料夾下建立 static 資料夾，並在 static 資料夾下建立與 app 同名的資料夾（和 templates 是一樣的概念）：
+
+```
+stats
+├── ...other files
+├── models.py
+├── static <------------- 建立 static 資料夾
+│   └── stats <---------- 建立與 app 同名的資料夾
+├── templates
+│   └── stats
+│       └── index.html
+├── tests.py
+├── urls.py
+└── views.py
+```
+
+# 套用 Bootstrap
+
+在這裡我們使用現成的 Bootstrap CSS 檔。
+
+我們把 CSS 檔案放入 stats/static/stats/ 資料夾底下，接著在 index.html 中的 head 標籤加入引用 CSS 檔的程式碼：
+
+```django
+{% load staticfiles %}
+<!-- ... -->
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'stats/bower_components/bootstrap/dist/css/bootstrap.min.css' %}">
+</head>
+<body>
+  <!-- ... -->
+  <script src="{% static 'stats/bower_components/jquery/dist/jquery.min.js' %}"></script>
+  <script src="{% static 'stats/bower_components/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+</body>
+```
+
+接著你就可以 `runserver` 看到引入 CSS 後的效果（當然你需要自己改一下 index.html 的內容，加入 Bootstrap 的元素）：
+
+![static_ex1.png](static_ex1.png)
+
+> **Note**
+>
+> 在真正部署系統的時候，你還會需要透過 django 指令將這些 static files 進行某些處理，在 [這邊](https://docs.djangoproject.com/en/1.9/howto/static-files/) 有詳細的解釋 static files 的管理方法。
+
 <!--====  End of Static Files  ====-->
 
 
@@ -1147,6 +1223,12 @@ JavaScript 是在「客戶端」執行的程式碼，也就是說 django templat
 
 ## SOAP
 
-## get\_object\_or\_404
+## Automated testing
+
+在 django 裡面撰寫測試就跟在 Python 裡撰寫測試一樣重要，官方的教學文件裡面有專門一章來介紹要如何撰寫 django 的自動測試，請看 [這裡](https://docs.djangoproject.com/en/1.9/intro/tutorial05/)。
+
+## 處理 URL 的命名衝突
+
+與 template 命名相同，URL 也會有命名的衝突問題，在 django 官網的 tutorial 中有講到這個問題的解決方式，請參考 [這裡](https://docs.djangoproject.com/en/1.9/intro/tutorial03/#namespacing-url-names)。
 
 
