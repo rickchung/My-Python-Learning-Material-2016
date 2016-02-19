@@ -913,8 +913,7 @@ def region(request, region_name):
 
 到了這邊你大概能夠理解 django 的網頁程式大概是怎麼運作的了吧？
 
-不過我們發現到，只是回傳一個「字串」到網頁上非常的不足，甚至有些人會覺得那根本不能算是一個網頁（畢竟連 html 標籤都沒有），在接下來的章節我們將看到 django 中非常強大的一個功能：template，透過 HTML 與 template language 的結合，我們便能夠讓 django 顯示出我們平常所見的網頁樣式，還能夠動態地修改網頁的內容。
-
+不過我們發現到，只是回傳一個「字串」到網頁上非常的不足，甚至有些人會覺得那根本不能算是一個網頁（畢竟連 html 標籤都沒有），在接下來的章節我們將看到 django 中非常強大的一個功能：template，透過 HTML 與 template language 的結合，我們就能夠讓 django 顯示出我們平常所見的網頁樣式，還能夠動態地修改網頁的內容。
 
 <!--====  End of View  ====-->
 
@@ -924,13 +923,196 @@ def region(request, region_name):
 ===============================-->
 # Template 網頁的骨架
 
-## HTML 
+在 django 的 MTV 中，model 負責資料的模型化，view 負責運行邏輯，而 template 負責的是「呈現」。
+
+template 系統讓 django 在送出 HTTP response 之前，把資料和我們預先寫好的模板結合，就像填表格一樣，把資料庫中的資料一個一個填入預先設計好的格式中。
+
+如果你曾經寫過單純的 PHP，應該對下面這段程式碼非常熟悉：
+
+```php
+<ul>
+<?php
+$data = array('1', '2', '3', '4', '5');
+
+foreach ($data as $value) {
+    echo "<li>$value</li>\n";
+}
+?>
+</ul>
+```
+
+這樣的設計方式還有一個好處，他讓程式的邏輯可以跟呈現給使用者的介面設計分開。
+
+我們不需要再 Python code 中去管介面設計的元素，介面設計也不需要管 Python 的邏輯怎麼樣跑，Python 端只要告知介面端該用哪些變數來取得資料，介面端就可以完全依照自己的設計理念去發揮。
+
+這麼做除了讓程式設計師與介面設計師不再打架外，也帶來了維護上的好處。今天無論是要修改介面還是要修改程式邏輯，都可以在不影響到對方程式碼的情況下進行修改（當然你要維持介面的一致），大大的減少了維護的成本。
+
+要在 app 中加入 template ，首先你需要在 app 資料夾中建立像下面這個範例的資料夾結構：
+
+```
+stats
+├── templates     <-- 建立一個 templates 資料夾
+│   └── stats     <-- 再建立一個與 app 同名的資料夾
+├── urls.py
+├── views.py
+└── # ... other files
+```
+
+你的 template 檔案都要放在 `<project>/<app>/templates/<app>/` 這一個資料夾底下， django 才有辦法找到他們。
+
+> **Note**
+>
+> 為什麼需要在 templates 下再建立一個與 app 同名的資料夾呢？
+>
+> 這是避免「命名衝突」的考量，當你指定要某一個 template 檔案時， django 預設會去搜尋在 `INSTALLED_APPS` 中列出的每一個 app 資料夾底下的 `templates`，並且使用「第一個找到的」 template 檔案。
+> 
+> 想像一個情況：你有兩個 apps 名為 app1 和 app2 ，這兩個 apps 都有名為 index.html 的 template 檔案，這時 django 到底要使用哪一個呢？答案是先找到先用，所以你有可能在 app2 中使用到 app1 的 index.html，或者是在 app1 中誤用到 app2 的 index.html。
+>
+> 因此你必須要在 templates 資料夾下再建立一個與 app 同名的資料夾，並在引用 template 時加入 app 的名稱，來避免混淆。
+
+## HTML
+
+究竟 template 檔案應該要長什麼樣子呢？基本上是沒有硬性規定的，但是通常為了方便我們會使用 HTML 來寫（畢竟是網頁嘛）。
+
+接下來我們就來撰寫幾個 templates 吧。
+
+在 `stats/templates/stats/` 下建立 index.html，並填入以下的內容：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Index</title>
+</head>
+<body>
+  <h1>Candidates</h1>
+  {% if candidates_list %}
+    <ul>
+      {% for i in candidate_list %}
+        <li><a href="/stats/candidate/{{i.id}}"></a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There is no candidates found.</p>
+  {% endif %}
+
+  <h1>Region</h1>
+  {% if region_list %}
+      <ul>
+        {% for i in region_list %}
+          <li><a href="/stats/region/{{i.region_name}}"></a></li>
+        {% endfor %}
+      </ul>
+  {% else %}
+      <p>There is no region found.</p>
+  {% endif %}
+</body>
+</html>
+```
+
+再來我們要修改 views.py 中的 index function ，讓他抓取我們指定的 template：
+
+```python
+from django.template import loader    # import template loader
+
+def index(request):
+    """ Show the index page
+    """
+    # 從資料庫中抓取 Candidate 和 Rrgion 的資料
+
+    candidate_list = Candidate.objects.all()
+    region_list = Region.objects.all()
+
+    # 取得我們要用的 template 檔案
+    # 注意：檔案的路徑要包含 templates 資料夾內的子資料夾的名稱
+
+    template = loader.get_template('stats/index.html')
+
+    # 我們想要傳進 template 的資料要用一個 dictionary 包起來，
+    # dict 的 key 就會是你能夠在 template 中使用的變數名稱
+    
+    context = {
+        'candidate_list': candidate_list, 
+        'region_list': region_list
+    }
+
+    # 用 template.render 把資料塞入 template 後，
+    # 再包進 HttpResponse 內回傳
+
+    return HttpResponse(template.render(context, request))
+```
+
+`runserver` 後讀取我們的首頁，結果如下：
+
+![template_ex1.png](template_ex1.png)
 
 ## Django Template Language
 
+在上面的範例中，你會發現某一些使用 `{% %}` 或是 `{{ }}` 夾起來的內容，那就是 django 的 template language，使用的方法有點像 PHP 裡面的 `<?php ?>` ， django 的 template 系統只會解析這兩種符號夾起來的內容，其他的部分就維持原樣。
+
+用 `{% %}` 夾起來的是「流程控制」類的 template language，包含了經常使用的 for 迴圈、if-else 條件判斷式，語法上和 Python 相當接近。
+
+而使用 `{{ }}` 包起來的是「變數」，在裡面直接放入變數名稱， django template 就會將他置換成對應的變數值，而變數的來源就是我們在 view 裡面指定的 dict。
+
+Template language 還有很多其他的用法，可以參考 [這裡](https://docs.djangoproject.com/en/1.9/topics/templates/#syntax) 。
+
+## Shortcut: render()
+
+因為 template 實在是太常用了， django 提供了一個 view 的簡化寫法：
+
+```python
+from django.shortcuts import render
+
+def index(request):
+    """ Show the index page
+    """
+    # 從資料庫中抓取 Candidate 和 Rrgion 的資料
+
+    candidate_list = Candidate.objects.all()
+    region_list = Region.objects.all()
+
+    # 我們想要傳進 template 的資料要用一個 dictionary 包起來，
+    # dict 的 key 就會是你能夠在 template 中使用的變數名稱
+    
+    context = {
+        'candidate_list': candidate_list, 
+        'region_list': region_list
+    }
+
+    # 使用 shortcut 中的 render function 來處理 template
+
+    return render(request, 'stats/index.html', context)
+```
+
+通常我們會用這一種寫法，能懶則懶嘛。
+
 ## Javascript 要怎麼辦？（補充）
 
+這邊是做一個小補充，怕有些人不太明白 JavaScript 要怎麼跟 django template 一起使用。
+
+JavaScript 是在「客戶端」執行的程式碼，也就是說 django template 基本上不會管你的 JavaScript 裡面寫了什麼，他只會處理他看得懂的那幾個符號。
+
+所以你如果要在 template 中寫入 JavaScript，就直接寫吧！
+
+不過，有時候我們的 JavaScript 「可能」會需要用到和 django template 相衝突的符號（例如 AngularJS），這個時候該怎麼辦呢？
+
+最方便的做法就是「讓 django template 跳過那些可能會有衝突的程式碼」，語法如下：
+
+```django
+{% verbatim %}
+    包含在這兩個標籤內的程式碼不會被 django template 解析
+{% endverbatim %}
+```
+
 ## Template 小結（Break time!）
+
+在這一個章節裡面我們簡單看過了怎麼樣透過 template 來「美化」我們的網頁，將 Python 程式邏輯與介面設計分開能夠幫助我們解決開發上的合作問題與維護問題。
+
+然而，我們的網頁好像還不是這麼「美」，我們接下來需要一些 CSS 檔來美化我們的網頁。
+
+在 django server 中， CSS 、 JavaScript 或者圖片檔等都被稱為 static files，這些檔案是由 django 統一進行管理的，因此在使用時和過去我們直接指定圖片、CSS 或 JavaScript 檔案路徑的方式有很大的不同，在下一個章節我們將介紹如何處理這些檔案。
+
 <!--====  End of Template  ====-->
 
 
@@ -951,7 +1133,6 @@ def region(request, region_name):
 
 ## 使用者認證機制
 
-
 # 把你的 Django 程式部署到網路上
 
 ---
@@ -966,5 +1147,6 @@ def region(request, region_name):
 
 ## SOAP
 
+## get\_object\_or\_404
 
 

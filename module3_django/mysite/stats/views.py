@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
+from django.template import loader    # import template loader
 
 from .models import Candidate, Region, Vote
 
@@ -13,13 +14,17 @@ def index(request):
     candidate_list = Candidate.objects.all()
     region_list = Region.objects.all()
 
-    # 製作 response content
+    # 我們想要傳進 template 的資料要用一個 dictionary 包起來，
+    # dict 的 key 就會是你能夠在 template 中使用的變數名稱
+    
+    context = {
+        'candidate_list': candidate_list, 
+        'region_list': region_list
+    }
 
-    response = "Candidates: {clist} <br>Regions: {rlist}".format(
-        clist=', '.join([c.candidate_name for c in candidate_list]), 
-        rlist=', '.join([r.region_name for r in region_list]))
+    # 使用 shortcut 中的 render function 來處理 template
 
-    return HttpResponse(response)
+    return render(request, 'stats/index.html', context)
 
 def candidate(request, candidate_id): # 這裡的參數將會從 URLConf 解析而來
     """ Show the details of candidate
