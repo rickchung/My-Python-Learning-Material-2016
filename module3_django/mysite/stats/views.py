@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from .models import Candidate, Region, Vote
+
 # Create your views here.
 
 def index(request):
@@ -8,9 +10,12 @@ def index(request):
     """
     return HttpResponse("Hello world. This is the stats index.")
 
-def results(request, type, id): # 這裡的參數將會從 URLConf 解析而來
-    """ Shoe the vote results of the passed candidate
+def candidate(request, candidate_id): # 這裡的參數將會從 URLConf 解析而來
+    """ Show the details of candidate
     """
-    response = "You are looking the results of the <b>{type} {id}</b>".format(type=type, id=id)
+    return HttpResponse("You are watching the details of candidate <b>{id}</b>".format(id=candidate_id))
 
-    return HttpResponse(response)
+def region(request, region_name):
+    """ Show the vote results of one region
+    """
+    return HttpResponse("You are watching the details of region <b>{name}</b>".format(name=region_name))

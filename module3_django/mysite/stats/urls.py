@@ -11,6 +11,8 @@ urlpatterns = [
     # ex: /stats/
     url(r'^$', views.index, name='index'),
 
-    # ex: /stats/results/{type}/{id}
-    url(r'^results/(?P<type>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.results, name='results'),
+    # ex: /stats/candidate/{id}/
+    url(r'^candidate/(?P<candidate_id>[0-9]+)/$', views.candidate, name='candidate'),
+    # ex: /stats/region/{name}/
+    url(r'^region/(?P<region_name>[a-zA-Z]+)/$', views.region, name='region'),
 ]

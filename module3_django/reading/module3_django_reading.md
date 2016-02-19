@@ -791,12 +791,15 @@ WuLa
 ```python
 # Other code above...
 
-def results(request, type, id): # 這裡的參數將會從 URLConf 解析而來
-    """ Shoe the vote results of the passed candidate
+def candidate(request, candidate_id): # 這裡的參數將會從 URLConf 解析而來
+    """ Show the details of candidate
     """
-    response = "You are looking the results of the <b>{type} {id}</b>".format(type=type, id=id)
+    return HttpResponse("You are watching the details of candidate <b>{id}</b>".format(id=candidate_id))
 
-    return HttpResponse(response)
+def region(request, region_name):
+    """ Show the vote results of one region
+    """
+    return HttpResponse("You are watching the details of region <b>{name}</b>".format(name=region_name))
 ```
 
 接著在 `stats/urls.py` 加入：
@@ -808,28 +811,46 @@ urlpatterns = [
     
     # Other urls ......
 
-    # ex: /stats/results/{type}/{id}
-    url(r'^results/(?P<type>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.results, name='results'),
+    # ex: /stats/candidate/{id}/
+    url(r'^candidate/(?P<candidate_id>[0-9]+)/$', views.candidate, name='candidate'),
+    # ex: /stats/region/{name}/
+    url(r'^region/(?P<region_name>[a-zA-Z]+)/$', views.region, name='region'),
 ]
 ```
 
-接著 `runserver` 後在瀏覽器嘗試看看以下的網址，看看結果為何：
+`runserver` 後在瀏覽器嘗試看看以下的網址，看看結果為何：
 
 ```
-http://127.0.0.1:8000/stats/results/candidate/10/
-http://127.0.0.1:8000/stats/results/candidate/8/
-http://127.0.0.1:8000/stats/results/vote/2/
-http://127.0.0.1:8000/stats/results/region/3/
-http://127.0.0.1:8000/stats/results/region/
+http://127.0.0.1:8000/stats/candidate/10/
+http://127.0.0.1:8000/stats/candidate/8/
+http://127.0.0.1:8000/stats/region/Taipei/
+http://127.0.0.1:8000/stats/region/Tainan/
+http://127.0.0.1:8000/stats/region/12345/
 ```
 
-有發現嗎？我們可以在透過 URLConf 的設計，讓 view function 取得對應的參數，接著我們就能夠依據不同的參數顯示不同的結果！
+有發現嗎？我們可以透過 URLConf 的設計，讓 view function 取得對應的參數，接著我們就能夠依據不同的參數動態顯示不同的結果！
 
 ![view_url_param.png](view_url_param.png)
 
 ## URLConf 的 regular expression（補充）
 
+Regular expression, regex 正則表達式是一種常用的「字串搜尋」方法，透過預先定義的符號，我們可以檢查任何字串是不是有符合某種規則。
+
+(之後補)
+
+regex 還滿好用的，建議花一點時間學習一下。
+
+[參考資料](https://docs.python.org/3.4/howto/regex.html)
+
 ## 連結資料庫
+
+接下來我們要讓 view 能夠執行一些比較有用的功能，例如顯示候選人資料、投票結果，或者在使用者鍵入不合法的 URL 時顯示錯誤訊息。
+
+從 view 裡面抓取資料庫的方法同樣是使用 models，接下來我們要讓 `results` 能夠在接收到不同 type 的參數，並從資料庫中提取對應的資料：
+
+```python
+
+```
 
 ## 處理 POST, GET 資料
 
