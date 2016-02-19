@@ -8,5 +8,9 @@ urlpatterns = [
     # Django 允許我們使用 regex (regular expression) 進行 URL 的解析，這在
     # 之後的章節會再提到
 
+    # ex: /stats/
     url(r'^$', views.index, name='index'),
+
+    # ex: /stats/results/{type}/{id}
+    url(r'^results/(?P<type>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.results, name='results'),
 ]

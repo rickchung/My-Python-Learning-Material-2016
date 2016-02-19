@@ -757,7 +757,86 @@ WuLa
 
 剛從 SQL 的世界進入到這種操作方法可能會很不習慣，但多練習幾次之後你會發現他非常的方便。
 
+接下來的章節我們會介紹如何把 view 和 model 結合在一起。
+
 <!--====  End of Model  ====-->
+
+
+<!--==========================
+=            View            =
+===========================-->
+# View 動態網頁的基礎
+
+在 django 中，網頁程式中的每一個網頁（或者不同的功能）都是由 view 來產生，以一個 blog 網站來說，可能會包含以下的 views，來顯示不同的頁面或者處理不同的功能：
+
+- 首頁：顯示一些最新的文章
+- 文章內容：顯示該文章的內容
+- 文章列表：依據不同條件顯示文章
+- 新增文章：編輯、新增文章
+- 留言：針對不同文章留言
+- 使用者認證：登入登出功能
+
+究竟一個網站需要多少 views，這個就與你的程式設計跟需求有關了。
+
+另外 django 會透過 URLConf 的設定來決定該呼叫哪一個 view function 來處理，這就跟我們過去會在 www 資料夾內放入各種不同的 HTML 或 PHP 檔一樣，在 django 中他幫你建構了一個統一、有秩序的流程來處理不同的頁面，你不再需要自己管理雜七雜八的網頁檔。
+
+還記得在前面的章節我們撰寫過一個最基本的 view 嗎？現在我們要多加幾個新的 view ，並連結我們新學到的 models。
+
+> **Note**
+>
+> 撰寫一個 view 的流程大概是：寫 view -> 修改 URLConf -> 寫 view -> 修改 URLConf -> ......
+
+開啟 `stats/views.py` ，並加入以下的程式碼：
+
+```python
+# Other code above...
+
+def results(request, type, id): # 這裡的參數將會從 URLConf 解析而來
+    """ Shoe the vote results of the passed candidate
+    """
+    response = "You are looking the results of the <b>{type} {id}</b>".format(type=type, id=id)
+
+    return HttpResponse(response)
+```
+
+接著在 `stats/urls.py` 加入：
+
+```python
+# Other code above...
+
+urlpatterns = [
+    
+    # Other urls ......
+
+    # ex: /stats/results/{type}/{id}
+    url(r'^results/(?P<type>[a-zA-Z]+)/(?P<id>[0-9]+)/$', views.results, name='results'),
+]
+```
+
+接著 `runserver` 後在瀏覽器嘗試看看以下的網址，看看結果為何：
+
+```
+http://127.0.0.1:8000/stats/results/candidate/10/
+http://127.0.0.1:8000/stats/results/candidate/8/
+http://127.0.0.1:8000/stats/results/vote/2/
+http://127.0.0.1:8000/stats/results/region/3/
+http://127.0.0.1:8000/stats/results/region/
+```
+
+有發現嗎？我們可以在透過 URLConf 的設計，讓 view function 取得對應的參數，接著我們就能夠依據不同的參數顯示不同的結果！
+
+![view_url_param.png](view_url_param.png)
+
+## URLConf 的 regular expression（補充）
+
+## 連結資料庫
+
+## 處理 POST, GET 資料
+
+## 使用者認證機制
+
+## View 小結（10 mins break and we'll back）
+<!--====  End of View  ====-->
 
 
 <!--==============================
@@ -773,21 +852,6 @@ WuLa
 
 ## Template 小結（Break time!）
 <!--====  End of Template  ====-->
-
-
-<!--==========================
-=            View            =
-===========================-->
-# View 動態網頁的基礎
-
-## 連結資料庫
-
-## 處理 POST, GET 資料
-
-## 使用者認證機制
-
-## View 小結（10 mins break and we'll back）
-<!--====  End of View  ====-->
 
 
 <!--==================================
