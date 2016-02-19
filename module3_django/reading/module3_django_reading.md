@@ -1217,11 +1217,11 @@ stats
 
 ## WSGI
 
-## Nginx & PostegreSQL
+[化整為零的次世代網頁開發標準: WSGI](http://blog.ez2learn.com/2010/01/27/introduction-to-wsgi/)
 
 ## REST and RESTful
 
-## SOAP
+[什麼是REST跟RESTful?](https://ihower.tw/blog/archives/1542)
 
 ## Automated testing
 
