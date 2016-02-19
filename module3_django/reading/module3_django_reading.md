@@ -32,7 +32,6 @@
 
 - 瞭解網路應用程式的概念
 - 使用 Django 開發一套功能完整的網路應用程式
-- 將自己的網路應用程式部署到網路上
 - MVC 架構概念
 - Django Model
 - Django Template language
@@ -88,12 +87,12 @@
   * [h1. 處理 POST, GET 資料](#h1.-處理-post,-get-資料)
   * [h2. Django 表單](#h2.-django-表單)
   * [h3. 使用者認證機制](#h3.-使用者認證機制)
-* [I. 把你的 Django 程式部署到網路上](#i.-把你的-django-程式部署到網路上)
 * [延伸閱讀](#延伸閱讀)
   * [WSGI](#wsgi)
   * [REST and RESTful](#rest-and-restful)
   * [Automated testing](#automated-testing)
   * [處理 URL 的命名衝突](#處理-url-的命名衝突)
+  * [把你的 Django 程式部署到網路上](#把你的-django-程式部署到網路上)
 
 ---
 
@@ -1223,11 +1222,127 @@ stats
 
 ## h1. 處理 POST, GET 資料
 
+在 view 裡面要處理 POST、GET 的資料非常容易，這些資料被以 dict 的方式分別儲存成 `request.GET` 和 `request.POST`，你可以直接在 view 中使用它們：
+
+```python
+# 取得 GET 資料
+get_data = request.GET
+
+# 取得 POST 資料
+post_data = request.POST
+```
+
+```django
+<h1>GET data list</h1>
+{% for key,value in get_data.items %}
+  <p>{{key}} ---> {{value}}</p>
+{% endfor %}
+```
+
+![get_ex1.png](get_ex1.png)
+
 ## h2. Django 表單
 
-## h3. 使用者認證機制
+知道怎麼樣處理 POST 資料後，我們就可以來建立一個簡單的表單，同樣在 index.html 內加入一些程式碼：
 
-# I. 把你的 Django 程式部署到網路上
+```django
+<h1>A simple form here</h1>
+
+<!-- 在發生錯誤時顯示錯誤訊息 -->
+
+{% if error_message %}
+  <p><strong>{{ error_message }}</strong></p>
+{% endif %}
+
+<form action="{% url 'index' %}" method="post">
+  <!--  CSRF token（Cross Site Request Forgeries）
+    這是要在 django 的環境下建立表單必須要加的一段描述，
+    是一種安全機制。
+
+    如果你的表單裡沒有這一個描述，django 會拒絕接收這個表單。
+  -->
+  {% csrf_token %}
+  <label for="title">Title</label>
+  <input type="text" id="title" name="title">
+  <input type="submit" name="submit" value="submit" />
+</form>
+```
+
+在 views.py 中放入相對應的處理程式碼：
+
+```python
+# Other imports ......
+from django.http import HttpResponseRedirect    # 重新導向用
+from django.core.urlresolvers import reverse    # 透過 name 取出 URL
+
+def index(request):
+    """ Show the index page
+    """
+
+    # 我們在這裡處理 POST 過來的資料
+
+    error_message = None
+    success_message = None
+    if 'submit' in request.POST:
+        title = request.POST['title']
+
+        # 通常你會需要做一些檢查清洗使用者輸入的資料
+
+        if len(title) == 0:
+            error_message = 'You should input something.'
+        else:
+
+            # 使用 HttpResponseRedirect 可以把使用者重新導向到其它頁面
+            # 通常在成功接收 POST 之後建議用重新導向的方式，避免使用者
+            # 不小心重新整理網頁造成重送的問題
+            
+            # reverse 是用來取得 URLConf 內的 URL 的一種方式，避免 hard code
+
+            return HttpResponseRedirect(reverse('show_title', args=(title, )))
+
+    # Other code here......
+
+    context = {
+        'candidate_list': candidate_list, 
+        'region_list': region_list,
+        'get_data': get_data,
+        'error_message': error_message,
+    }
+
+    # 使用 shortcut 中的 render function 來處理 template
+
+    return render(request, 'stats/index.html', context)
+```
+
+在這裡我們新增了一個新的 view 專門來顯示使用者輸入的結果（這方法是有點笨，不過很容易看得出效果 ( ´ ▽ ` )）：
+
+```python
+# In urls.py
+url(r'^show_title/(?P<title>[a-zA-Z]+)/$', views.show_title, name='show_title'),
+
+# In views.py
+def show_title(request, title):
+    return render(request, 'stats/show_title.html', {'title': title})
+```
+
+```django
+<!-- In stats/templates/stats/show_title.html -->
+<p>We got your message: {{title}}</p>
+<a href="{% url 'index' %}">Back to home</a>
+```
+
+`runserver` 後看看結果吧！
+
+![form_ex1.png](form_ex1.png)
+![form_ex2.png](form_ex2.png)
+![form_ex3.png](form_ex3.png)
+
+> **Note**
+>
+> 在 django 裡面其實有提供一個 form 的功能，透過這個功能來建立表單的話，django 可以自動清洗資料並幫我們檢查使用者輸入的資料正不正確，不過這個功能要介紹的話可能篇幅太長了，有興趣的人可以看看 [這裡](https://docs.djangoproject.com/en/1.9/topics/forms/)。
+
+
+## h3. 使用者認證機制
 
 ---
 
@@ -1249,4 +1364,6 @@ stats
 
 與 template 命名相同，URL 也會有命名的衝突問題，在 django 官網的 tutorial 中有講到這個問題的解決方式，請參考 [這裡](https://docs.djangoproject.com/en/1.9/intro/tutorial03/#namespacing-url-names)。
 
+## 把你的 Django 程式部署到網路上
 
+這是我在 Django Girl 中看到的教學，他使用了 GitHub 來把 django project 部署到 PythonAnywhere 上，還滿有趣的，有興趣的人可以參考 [這裡](http://tutorial.djangogirls.org/en/deploy/index.html)。

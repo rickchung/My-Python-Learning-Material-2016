@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^candidate/(?P<candidate_id>[0-9]+)/$', views.candidate, name='candidate'),
     # ex: /stats/region/{name}/
     url(r'^region/(?P<region_name>[a-zA-Z]+)/$', views.region, name='region'),
+
+    url(r'^show_title/(?P<title>[a-zA-Z]+)/$', views.show_title, name='show_title'),
 ]

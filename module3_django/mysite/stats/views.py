@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader    # import template loader
+from django.core.urlresolvers import reverse
 
 from .models import Candidate, Region, Vote
 
@@ -9,6 +10,31 @@ from .models import Candidate, Region, Vote
 def index(request):
     """ Show the index page
     """
+
+    # 我們在這裡處理 POST 過來的資料
+
+    error_message = None
+    success_message = None
+    if 'submit' in request.POST:
+        title = request.POST['title']
+
+        # 通常你會需要做一些檢查清洗使用者輸入的資料
+
+        if len(title) == 0:
+            error_message = 'You should input something.'
+        else:
+
+            # 使用 HttpResponseRedirect 可以把使用者重新導向到其它頁面
+            # 通常在成功接收 POST 之後建議用重新導向的方式，避免使用者
+            # 不小心重新整理網頁造成重送的問題
+            
+            # reverse 是用來取得 URLConf 內的 URL 的一種方式，避免 hard code
+
+            return HttpResponseRedirect(reverse('show_title', args=(title, )))
+
+    # 取得 GET 資料
+    get_data = request.GET
+
     # 從資料庫中抓取 Candidate 和 Rrgion 的資料
 
     candidate_list = Candidate.objects.all()
@@ -19,12 +45,17 @@ def index(request):
     
     context = {
         'candidate_list': candidate_list, 
-        'region_list': region_list
+        'region_list': region_list,
+        'get_data': get_data,
+        'error_message': error_message,
     }
 
     # 使用 shortcut 中的 render function 來處理 template
 
     return render(request, 'stats/index.html', context)
+
+def show_title(request, title):
+    return render(request, 'stats/show_title.html', {'title': title})
 
 def candidate(request, candidate_id): # 這裡的參數將會從 URLConf 解析而來
     """ Show the details of candidate
