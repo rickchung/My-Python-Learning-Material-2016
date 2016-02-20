@@ -363,6 +363,8 @@ urlpatterns = [
 
 如果你對於 HTTP 的處理流程感到很茫然的話，這邊我給一個非常精簡的 HTTP request 處理流程，讓大家能夠明白我們的網頁到底是怎麼樣透過 Django 顯示出來的。
 
+![request_process.png](request_process.png)
+
 - [Client] Sends HTTP request
 - [Server] HTTP server receives one request
 - [Server] Pass the request to Django system
@@ -938,6 +940,8 @@ def region(request, region_name):
 ![view_ex4.png](view_ex4.png)
 
 ## e3. Django views 運作流程圖例
+
+![request_process.png](request_process.png)
 
 - .... Same as above illustration
 - [Djengo-app] Interprete the request URL by app's URLConf
