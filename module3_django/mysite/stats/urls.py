@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^region/(?P<region_name>[a-zA-Z]+)/$', views.region, name='region'),
 
     url(r'^show_title/(?P<title>[a-zA-Z]+)/$', views.show_title, name='show_title'),
+
+    url(r'^accounts/login/$', views.user_login, name='user_login'),
 ]

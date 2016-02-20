@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.template import loader    # import template loader
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import Candidate, Region, Vote
 
 # Create your views here.
 
+@login_required(login_url='/accounts/login/')
 def index(request):
     """ Show the index page
     """
@@ -56,6 +58,9 @@ def index(request):
 
 def show_title(request, title):
     return render(request, 'stats/show_title.html', {'title': title})
+
+def user_login(request):
+    return render(request, 'stats/login_page.html', {})
 
 def candidate(request, candidate_id): # 這裡的參數將會從 URLConf 解析而來
     """ Show the details of candidate

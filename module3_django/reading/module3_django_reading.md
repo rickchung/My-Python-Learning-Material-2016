@@ -1413,6 +1413,26 @@ def logout_view(request):
   # 將使用者導去登出成功的網頁
 ```
 
+### 檢查使用者是否已經登入
+
+有時候（應該說很多時候）我們會希望使用者先登入後才能使用某些功能（view），傳統的做法我們會需要做一些 if-else 的檢查，看看使用者是不是已經登入，但這個做法要在每一個需要檢查的 view 中增加程式碼，相當的麻煩。
+
+在 django 裡面提供了一個很方便的做法，使用 login_required decorator，讓使用者進入到某一個 view 時自動檢查是不是已經登入，如果沒有登入則將使用者導入適當的登入頁：
+
+```python
+from django.contrib.auth.decorators import login_required
+
+@login_required(login_url='/accounts/login/')   # 使用 decorator 來改變 view 的行為
+def your_view(request):
+  # ...
+```
+
+如果使用者沒有登入但進入了 @login_required 的 view 時，會被強制導到 `login_url` 所指定的 URL ，例如 `http://127.0.0.1:8000/accounts/login/?next=/stats/`（當然你得在那個頁面寫一個登入介面），等待使用者登入完成後便會被重新導回原先的頁面。
+
+> **Note**
+>
+> Django 的 auth 功能在官方的文件裡有專門開一頁來講，建議如果要用 django 做使用者認證功能的話可以先瀏覽一下，請看 [這裡](https://docs.djangoproject.com/en/1.9/topics/auth/)。
+
 ---
 
 # 延伸閱讀

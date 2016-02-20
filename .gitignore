@@ -8,3 +8,5 @@ datagen.py
 */__pycache__/*
 *.pyc
 module2/sphinx_example/doc/build/*
+
+*.sqlite3
