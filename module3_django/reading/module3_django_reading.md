@@ -1368,6 +1368,51 @@ def show_title(request, title):
 
 ## h3. 使用者認證機制
 
+Django 帶有一個很好用的使用者認證機制，在大多數的情況下，你不需要自己花時間寫一個使用者認證系統。與 django 中其他資料相同，每一個使用者都是一個 User 物件，可以用以下的方法去創建一個新的使用者：
+
+```python
+In [1]: from django.contrib.auth.models import User
+
+In [2]: user = User.objects.create_user('foo', 'foo@foo.com', 'foopassword')
+
+# 到這邊時使用者已經建立好了
+```
+
+接下來看看怎麼樣把使用者登入，我們可以透過 django 的 authenticate 和 login function：
+
+```python
+from django.contrib.auth import authenticate, login
+
+# In your view function
+
+def your_view_function(request):
+  username = request.POST['username']
+  password = request.POST['password']
+
+  user = authenticate(username=username, password=password)
+
+  if user is not None:
+    if user.is_active:
+        # 使用 login function 來把使用者登入（request 是來自於你 view function 傳入的參數）
+        login(request, user)
+        # 登入成功，將使用者導入成功頁面
+    else:
+        # 如果 user is not active，代表這個帳戶目前無法使用
+        # 可以在這邊顯示錯誤訊息
+  else:
+      # 顯示登入失敗的錯誤訊息
+```
+
+如果想把使用者登出：
+
+```python
+from django.contrib.auth import logout
+
+def logout_view(request):
+  logout(request)
+  # 將使用者導去登出成功的網頁
+```
+
 ---
 
 # 延伸閱讀
