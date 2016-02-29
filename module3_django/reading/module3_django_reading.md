@@ -238,7 +238,7 @@ TIME_ZONE = 'Asia/Taipei'   # 會讓 Django 系統將時間轉換為我們指定
 在建立完 project 後，我們可以馬上看看這一個「空的」網站到底長什麼樣子，運行以下指令：
 
 ```bash
-python migrate                  # 建立 Django 預設的一些資料表，在之後會說明
+python manage.py migrate        # 建立 Django 預設的一些資料表，在之後會說明
 python manage.py runserver      # 運行開發用伺服器
 ```
 
