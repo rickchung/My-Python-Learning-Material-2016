@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import scrapy
 
 from taiwan_president_2016.items import TaiwanPresident2016Item

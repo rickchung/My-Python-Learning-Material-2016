@@ -16,5 +16,3 @@ class TaiwanPresident2016Item(scrapy.Item):
     can_name        = scrapy.Field()
     can_number      = scrapy.Field()
     can_vote        = scrapy.Field()
-
-    pass
