@@ -18,4 +18,12 @@ class NewsWebsiteItem(scrapy.Item):
     content     = scrapy.Field()  # Text content
 
     img_urls  = scrapy.Field()      # Images 
-    youtube_urls = scrapy.Field()   # YouTube
+    img_desc  = scrapy.Field()
+
+class NewsContentItem(scrapy.Item):
+    title = scrapy.Field()
+    provider = scrapy.Field()
+    datetime = scrapy.Field()
+    text_content = scrapy.Field()
+    photo_src = scrapy.Field()
+    photo_desc = scrapy.Field()

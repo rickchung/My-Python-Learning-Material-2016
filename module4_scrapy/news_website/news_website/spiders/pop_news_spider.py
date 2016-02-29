@@ -5,13 +5,13 @@ import scrapy
 from news_website.items import NewsWebsiteItem
 
 class PopNewsSpider(scrapy.Spider):
-    name = "pop_news_spider"
-    allowed_domains = ["udn.com"]
+    name = 'pop_news_spider'
+    allowed_domains = ['udn.com']
 
     # 定義要從哪個網址開始
 
     start_urls = [
-        "http://udn.com/news/cate/6638",
+        'http://udn.com/news/cate/6638',
     ]
 
     def parse(self, response):

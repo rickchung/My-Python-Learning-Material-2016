@@ -237,6 +237,8 @@ $ scrapy crawl pop_news_spider # Run the spider 'pop_news_spider'
 
 ## b5. Extracting data with XPath (and Scrapy shell)
 
+### Scrapy shell
+
 ```bash
 $ scrapy shell http://udn.com/news/cate/6638
 # ......
@@ -263,6 +265,11 @@ $ scrapy shell http://udn.com/news/cate/6638
 - `response.xpath('p/h2')`: 選擇是 p 節點 child 的 h2 節點（一層） 
 - `response.xpath('p//h2')`: 選擇是 p 節點 descendant 的 h2 節點（兩層以下） 
 - `response.xpath('p[@class="10"]')`: 選擇有屬性 class 且值為 10 的 p 節點 
+
+### XPath 操作流程
+
+![xpath_step1](xpath_step1.png)
+![xpath_step2](xpath_step2.png)
 
 ```python
 # In Scrapy shell
@@ -411,6 +418,10 @@ ITEM_PIPELINES = {
 # ......
 ```
 
+引用自[官方文件 - Activating an Item Pipeline component](http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html#activating-an-item-pipeline-component)
+
+>The integer values you assign to classes in this setting determine the order in which they run: items go through from lower valued to higher valued classes. It’s customary to define these numbers in the 0-1000 range.
+
 ## b8. Full code of the spider
 
 ```python
@@ -452,6 +463,8 @@ class PopNewsSpider(scrapy.Spider):
             yield new_item
 ```
 
+## b9. Summary
+
 <!--====  End of Scrapy: Elegent framework for data extraction  ====-->
 
 <!--====================================
@@ -460,9 +473,126 @@ class PopNewsSpider(scrapy.Spider):
 
 # C. Advanced topics
 
-## c1. Following links
+## c1. CrawlSpider: Following links by defining rules
 
-## c2. CrawlSpider: Following links by defining rules
+[CrawlSpider 說明文件](http://scrapy.readthedocs.org/en/latest/topics/spiders.html#crawlspider)
+
+>This is the most commonly used spider for crawling regular websites, as it provides a convenient mechanism for following links by defining a set of rules. 
+
+```python
+# -*- coding: utf-8 -*-
+
+import scrapy
+from scrapy.spiders import CrawlSpider, Rule     # <-- 用來定義規則
+from scrapy.linkextractors import LinkExtractor  # <-- 用來定義規則
+
+from news_website.items import NewsWebsiteItem
+
+class PopNewsSpider(CrawlSpider):    # <-- 注意，繼承的類別為 CrawlSpider
+    name = 'pop_news_crawlspider'
+    allowed_domains = ['udn.com']
+    start_urls = ['http://udn.com/news/cate/6638'] # <-- 我們同樣從這一個網址開始
+
+    # 定義要 follow 的 link rules（可用 Regular expression）
+    # 如果定義了 callback ，則在抓到 match 的網址時會呼叫該 callback
+
+    rules = (
+        Rule(LinkExtractor(allow=('news/story/.*', )), callback='parse_item'),
+    )
+
+    # 這邊要注意，我們不使用 def parse(self, response) ，而是自己定義一個新的 method
+    # 再透過 callback 去呼叫。
+    # parse 這一個 method 被 CrawlSpider 用於內部運作，如果你 override 了 parse，CrawlSpider 就不會正常運作。
+
+    def parse_item(self, response):
+        # 在這裡我們先不對 response 做任何處理，只是單純檢查我們的 rule 到底抓到了哪些網頁
+
+        self.logger.info('Page URL: {url}'.format(url=response.url))
+```
+
+輸出結果大概會長這樣（為了簡潔，我把一些 DEBUG 訊息和時間戳記清掉了）：
+
+```
+[scrapy] INFO: Scrapy 1.0.4 started (bot: news_website)
+......
+[scrapy] INFO: Enabled item pipelines: JsonWithEncodingPipeline
+[scrapy] INFO: Spider opened
+[scrapy] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+......
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/7314/1531167
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/7314/1530018-%E8%8B%B1%E8%AA%9E%E5%90%8D%E5%B8%AB%E7%91%AA%E7%88%BE%E8%94%BB%E6%A2%81-91%E6%AD%B2%E7%97%85%E9%80%9D
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/7314/1531188-%E4%B8%AD%E6%AD%90%E6%94%9D%E5%BD%B1%E4%B9%8B%E6%97%85-%E5%A4%A7%E5%B8%AB%E8%B2%BC%E8%BA%AB%E6%8C%87%E5%B0%8E
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/6655/1530055
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/7835/1530012
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/6656/1530874-%E6%B0%91%E9%80%B2%E9%BB%A8%E5%BD%B0%E7%B8%A3%E9%BB%A8%E9%83%A8%E4%B8%BB%E5%A7%94%E6%94%B9%E9%81%B8-3%E5%A4%A7%E5%92%96%E8%A7%92%E9%80%90
+[pop_news_crawlspider] INFO: Page URL: http://udn.com/news/story/6656/1530908-%E8%A9%95%E8%AB%96-%EF%BC%8F%E5%9F%BA%E9%9A%86%E5%B8%82%E9%95%B7%EF%BC%8C%E6%82%A8%E6%97%A9%E8%A9%B2%E6%80%92%E4%BA%86
+......
+[scrapy] INFO: Closing spider (finished)
+[scrapy] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 18362,
+ 'downloader/request_count': 51,
+ 'downloader/request_method_count/GET': 51,
+ 'downloader/response_bytes': 841223,
+ 'downloader/response_count': 51,
+ 'downloader/response_status_count/200': 51,
+ 'finish_reason': 'finished',
+......
+[scrapy] INFO: Spider closed (finished)
+```
+
+### 分別處理 follow links 的內容（使用 XPath）
+
+```python
+# -*- coding: utf-8 -*-
+
+import scrapy
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
+
+from news_website.items import NewsContentItem
+
+class PopNewsSpider(CrawlSpider):
+    name = 'pop_news_crawlspider'
+    allowed_domains = ['udn.com']
+    start_urls = ['http://udn.com/news/cate/6638']
+
+    rules = (
+        Rule(LinkExtractor(allow=('news/story/.*', )), callback='parse_item'),
+    )
+
+    def parse_item(self, response):
+        # Debug log
+
+        # self.logger.info('This is an item page: {url}'.format(url=response.url))
+
+        # 找出關鍵節點
+
+        story_body = response.xpath('//div[@id="story_body"]')
+        story_body_info = story_body.xpath('.//div[@id="story_bady_info"]')
+
+        # 清洗出資料
+
+        title = story_body.xpath('.//h2/text()').extract()
+        datetime = story_body_info.xpath('h3/text()').extract()
+        provider = story_body_info.xpath('h3/span/text()').extract()
+        text_content = '\n'.join([i for i in story_body.xpath('.//p/text()').extract()])
+        photo_src = story_body.xpath('.//div[@class="photo_center photo-story"]//img/@src').extract()
+        photo_desc = story_body.xpath('.//div[@class="photo_center photo-story"]//h4/text()').extract()
+
+        # 塞入自定義的 Item 中
+
+        news_item = NewsContentItem()
+        news_item['title'] = title
+        news_item['provider'] = provider
+        news_item['datetime'] = datetime
+        news_item['text_content'] = text_content
+        news_item['photo_src'] = photo_src
+        news_item['photo_desc'] = photo_desc
+
+        return news_item
+```
+
+![crawlspider_result](crawlspider_result.png)
 
 <!--====  End of Something else  ====-->
 
