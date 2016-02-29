@@ -34,7 +34,7 @@
 >
 >你：ᶘ ᵒᴥᵒᶅ......
 
-# 注意：由於當初我用來做教學的網站 404 了，所以這個教學會改用其他的網站做代替
+# 注意：由於當初我用來做教學的網站 404 了，所以這個教學會改用其他的網站做代替（所以跟上面的故事不一樣了 (´Д\` )）
 
 ## 學這堂課要幹麻
 
@@ -51,25 +51,6 @@
 - 如何綜合使用不同的工具來幫助我們爬取資料
 
 ## 課程大綱
-
-* [Module 4 - Python Scrapy: Web Crawler and Data Processing](#module-4---python-scrapy:-web-crawler-and-data-processing)
-  * [學這堂課要幹麻](#學這堂課要幹麻)
-  * [學完這堂課你可以](#學完這堂課你可以)
-  * [課程大綱](#課程大綱)
-* [A. Overview: Websites data extraction](#a.-overview:-websites-data-extraction)
-* [B. Scrapy: Python framework for extracting data from websites](#b.-scrapy:-python-framework-for-extracting-data-from-websites)
-  * [b1. Installation with pip](#b1.-installation-with-pip)
-  * [b2. Creating a Scrapy project](#b2.-creating-a-scrapy-project)
-  * [b3. What do you want? Defining Items](#b3.-what-do-you-want?-defining-items)
-  * [b4. Reading website using program: Writing the first spider](#b4.-reading-website-using-program:-writing-the-first-spider)
-  * [b5. Extracting data with XPath (and Scrapy shell)](#b5.-extracting-data-with-xpath-(and-scrapy-shell))
-  * [b6. Output extracted data as CSV or JSON format](#b6.-output-extracted-data-as-csv-or-json-format)
-* [C. Dealing with JavaScript: Using NodeJS](#c.-dealing-with-javascript:-using-nodejs)
-  * [c1. Why NodeJS?](#c1.-why-nodejs?)
-  * [c2. Tracing JavaScript code with Firebug](#c2.-tracing-javascript-code-with-firebug)
-* [D. Advanced topics](#d.-advanced-topics)
-  * [d1. Following links](#d1.-following-links)
-  * [d2. CrawlSpider: Following links by defining rules](#d2.-crawlspider:-following-links-by-defining-rules)
 
 ---
 
@@ -354,16 +335,7 @@ class PopNewsSpider(scrapy.Spider):
     def parse(self, response):
         """ When response is received, this method will be called
         """
-        # 過濾節點（根據我們要抓的網站）
-
-        dt_list = response.xpath('//dt')   # 整個網站中所有的「dt」節點
-        a_list = dt_list.xpath('a[h2]')    # 有 h2 子節點的 a 節點
-
-        # 過濾內容
-
-        article_url_list = a_list.xpath('@href')  # 取出 href attribute
-        title_list = a_list.xpath('h2')           # h2 節點
-
+        # ......
         # 使用我們預先定義的 Items
 
         for i in a_list:
@@ -396,10 +368,47 @@ $ scrapy crawl pop_news_spider
 ## b7. Output extracted data as CSV or JSON format
 
 ```bash
-# 儲存成 JSON 格式
-$ scrapy crawl pop_news_spider -o pop_news.json
-# 儲存成 CSV 格式
+# 儲存成 CSV 格式（完美輸出）
 $ scrapy crawl pop_news_spider -o pop_news.csv
+
+# 儲存成 JSON 格式（注意，會有 Unicode 問題，請參考下面的解法）
+$ scrapy crawl pop_news_spider -o pop_news.json
+```
+
+### 處理 JSON 的 Unicode 問題（自定義 JSON 輸出）
+
+[來源](http://stackoverflow.com/questions/9181214/scrapy-text-encoding)
+
+在 `news_website/news_website/pipelines.py` 中：
+
+```python
+# -*- coding: utf-8 -*-
+import json
+import codecs
+
+class JsonWithEncodingPipeline(object):
+    def __init__(self):
+        self.file = codecs.open("out.json", "wb", encoding="utf-8")
+
+    def process_item(self, item, spider):
+        line = json.dumps(dict(item), ensure_ascii=False) + "\n"
+        self.file.write(line)
+        return item
+
+    def spider_closed(self, spider):
+        self.file.close()
+```
+
+在 `news_website/news_website/settings.py` 中：
+
+```python
+# ......
+# Configure item pipelines
+# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
+ITEM_PIPELINES = {
+   'news_website.pipelines.JsonWithEncodingPipeline': 300,
+}
+# ......
 ```
 
 ## b8. Full code of the spider
