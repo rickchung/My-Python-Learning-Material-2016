@@ -1032,7 +1032,7 @@ stats
 </head>
 <body>
   <h1>Candidates</h1>
-  {% if candidates_list %}
+  {% if candidate_list %}
     <ul>
       {% for i in candidate_list %}
         <li><a href="/stats/candidate/{{i.id}}">{{i.candidate_name}}</a></li>
