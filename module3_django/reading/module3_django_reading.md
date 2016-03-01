@@ -1035,7 +1035,7 @@ stats
   {% if candidates_list %}
     <ul>
       {% for i in candidate_list %}
-        <li><a href="/stats/candidate/{{i.id}}"></a></li>
+        <li><a href="/stats/candidate/{{i.id}}">{{i.candidate_name}}</a></li>
       {% endfor %}
     </ul>
   {% else %}
@@ -1046,7 +1046,7 @@ stats
   {% if region_list %}
       <ul>
         {% for i in region_list %}
-          <li><a href="/stats/region/{{i.region_name}}"></a></li>
+          <li><a href="/stats/region/{{i.region_name}}">{{i.region_name}}</a></li>
         {% endfor %}
       </ul>
   {% else %}
