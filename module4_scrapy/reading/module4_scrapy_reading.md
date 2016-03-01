@@ -52,6 +52,42 @@
 
 ## 課程大綱
 
+* [Module 4 - Python Scrapy: Web Crawler and Data Processing](#module-4---python-scrapy:-web-crawler-and-data-processing)
+  * [學這堂課要幹麻](#學這堂課要幹麻)
+  * [學完這堂課你可以](#學完這堂課你可以)
+  * [課程大綱](#課程大綱)
+* [A. Overview: Websites data extraction](#a.-overview:-websites-data-extraction)
+* [B. Scrapy: Python framework for extracting data from websites](#b.-scrapy:-python-framework-for-extracting-data-from-websites)
+  * [b1. Installation with pip](#b1.-installation-with-pip)
+    * [Python2 and Python3](#python2-and-python3)
+    * [Install Python2](#install-python2)
+    * [pip 安裝 Scrapy](#pip-安裝-scrapy)
+  * [b2. Creating a Scrapy project](#b2.-creating-a-scrapy-project)
+    * [Scrapy 的使用流程](#scrapy-的使用流程)
+    * [建立 Scrapy 專案](#建立-scrapy-專案)
+  * [b3. What do you want? Defining Items](#b3.-what-do-you-want?-defining-items)
+  * [b4. Reading website using program: Writing the first spider](#b4.-reading-website-using-program:-writing-the-first-spider)
+    * [結果](#結果)
+    * [scrapy.Spider 的工作流程](#scrapy.spider-的工作流程)
+  * [b5. Extracting data with XPath (and Scrapy shell)](#b5.-extracting-data-with-xpath-(and-scrapy-shell))
+    * [Scrapy shell](#scrapy-shell)
+    * [XPath 語法簡介](#xpath-語法簡介)
+    * [XPath 操作流程](#xpath-操作流程)
+  * [b6. Using your own Items](#b6.-using-your-own-items)
+  * [b7. Output extracted data as CSV or JSON format](#b7.-output-extracted-data-as-csv-or-json-format)
+    * [處理 JSON 的 Unicode 問題（自定義 JSON 輸出）](#處理-json-的-unicode-問題（自定義-json-輸出）)
+  * [b8. Full code of the spider](#b8.-full-code-of-the-spider)
+  * [b9. Summary](#b9.-summary)
+* [C. Advanced topics](#c.-advanced-topics)
+  * [c1. CrawlSpider: Following links by defining rules](#c1.-crawlspider:-following-links-by-defining-rules)
+  * [c2. Summary](#c2.-summary)
+* [延伸閱讀](#延伸閱讀)
+  * [Item pipline](#item-pipline)
+  * [關於 \_\_repr\_\_ 和 \_\_str\_\_](#關於-\_\_repr\_\_-和-\_\_str\_\_)
+  * [NodeJS Web crawler/spider](#nodejs-web-crawler/spider)
+  * [JavaScript 的問題](#javascript-的問題)
+  * [你用 Python 做过什么有趣的数据挖掘项目？](#你用-python-做过什么有趣的数据挖掘项目？)
+
 ---
 
 <!--========================================================
