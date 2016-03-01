@@ -79,9 +79,9 @@
 
 網路爬蟲已經是一個滿成熟的東西，有非常多的方案可以選擇，你可以用最古老的方法造一個輪子，也可以用別人幫你寫好的工具，各種方法之間各有優缺點，通常是依照你自己的需求去選擇啦。
 
-如果你擅長 JavaScript/jQuery 的話也可以參考看看別人用 NodeJS 實現的爬蟲，連結在延伸閱讀裡。
-
 Scrapy 是一套開源、基於 Python 的 web crawling framework，他非常的簡潔也非常的容易上手，只要你稍微了解 Python 以及 HTML 就可以撰寫一個簡單的爬蟲，另外 Scrapy 提供的 Scrapy shell 讓我們可以快速地測試爬蟲的規則，就像 Python 的互動式介面一樣。
+
+Scrapy 幫你完成了 HTML request/response 的處理，並且預先定義了一套爬蟲的流程，從 HTTP 處理、內容解析到後處理跟資料儲存，我們只要把適當的程式碼填入適當的地方就可以了。
 
 ## b1. Installation with pip
 
@@ -129,6 +129,20 @@ pip 8.0.2 from ....../python3.5/site-packages (python 3.5)
 
 ## b2. Creating a Scrapy project
 
+### Scrapy 的使用流程
+
+撰寫一支 Scrapy 爬蟲的步驟大概是這樣的：
+
+1. 建立新的專案
+1. 確定要抓的網站為何
+1. 確定要用爬蟲存哪些資料
+1. 分析目標網頁的結構
+1. 撰寫爬蟲
+
+就像使用 django 一樣，我們要先建立一個 Scrapy 的專案：
+
+### 建立 Scrapy 專案
+
 ```bash
 $ scrapy startproject news_website
 ```
@@ -147,7 +161,11 @@ news_website     <-- Project root folder
 
 ## b3. What do you want? Defining Items
 
-別忘了第一行的 `# -*- coding: utf-8 -*-` 。
+Scrapy 提供兩個最基本的功能來幫助我們建立網路爬蟲，第一個是自動化的 HTTP 網頁請求，另外一個則是自動的資料格式化。我們可以預先定義好想要儲存哪些資料，我們的爬蟲就可以彈性地指定不同格式來產生資料檔，例如 CSV 或 JSON。
+
+Scrapy 專案內的爬蟲 package 中有一個 items.py ，有點像 django 的 models，在這一個檔案中我們可以建立適當的資料模型，來存放我們想抓的資料。
+
+打開 items.py 並加入以下內容，別忘了第一行的 `# -*- coding: utf-8 -*-` ：
 
 ```python
 # -*- coding: utf-8 -*-
@@ -166,7 +184,11 @@ class NewsWebsiteItem(scrapy.Item):
     # ......
 ```
 
+在套用我們自己定義的 Item 之前，我們先來看看要怎麼樣讓 Scrapy 自動去請求網頁資料。
+
 ## b4. Reading website using program: Writing the first spider
+
+在 Scrapy 框架中，我們是透過擴充 Scrapy 預先定義的爬蟲類別來製作我們自己的爬蟲。
 
 在 `news_website/spiders` 資料夾底下，新增 `pop_news_spider.py`：
 
@@ -175,16 +197,24 @@ class NewsWebsiteItem(scrapy.Item):
 
 import scrapy
 
-class PopNewsSpider(scrapy.Spider):
-    name = "pop_news_spider"
-    allowed_domains = ["udn.com"]
-    start_urls = [
+class PopNewsSpider(scrapy.Spider):   # scrapy.Spider 是最簡單最基本的爬蟲類別
+    name = "pop_news_spider"          # 這是這隻爬蟲的名稱
+    allowed_domains = ["udn.com"]     # 限制這隻爬蟲能夠訪問的 URL domains
+    start_urls = [                    # 定義爬蟲該從哪一個網址開始，可以有很多個網址
         "http://udn.com/news/cate/6638",
     ]
 
-    def parse(self, response):
+    # parse 方法是 Scrapy 爬蟲類別裡最重要的方法之一，
+    # scrapy.Spider 在透過 HTTP request 取回網頁原始碼後，
+    # 便會呼叫 parse 來處理 HTTP response，在 parse 中可以
+    # 非常自由地去處理抓回來的 HTML 程式碼
+
+    def parse(self, response):        
         """ When response is received, this method will be called
         """
+
+        # 在這裡我們直接把回傳的 HTML response 內容儲存成一個檔案
+
         filename = response.url.split("/")[-2] + '.html'
         with open(filename, 'wb') as f:
             f.write(response.body)
@@ -192,13 +222,17 @@ class PopNewsSpider(scrapy.Spider):
 
 ### 執行
 
+接下來我們就可以試著透過 Scrapy 去運行剛剛寫好的 spider，通常會直接在專案的根目錄運行：
+
 ```bash
-$ pwd # Make sure you are under 'news_website'
+$ pwd                          # 確定你在專案的根目錄內
 .../news_website
-$ scrapy list # Shows the available spiders
+$ scrapy list                  # 顯示有哪些可用的 spiders
 pop_news_spider
-$ scrapy crawl pop_news_spider # Run the spider 'pop_news_spider'
+$ scrapy crawl pop_news_spider # 運行 pop_news_spider 這一支爬蟲
 ```
+
+以下是運行結果（省略了一些細節），可以從這裡觀察 Scrapy 的運行狀況：
 
 ```
 [scrapy] INFO: Scrapy 1.0.4 started (bot: news_website)
@@ -222,12 +256,14 @@ $ scrapy crawl pop_news_spider # Run the spider 'pop_news_spider'
 
 ### 結果
 
+完成之後，我們可以看一下存下來的 .html 檔案，這個檔案是透過前面定義的 spider 儲存下來的：
+
 ```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
 <!-- ...... -->
 ```
 
-### Scrapy 的工作流程
+### scrapy.Spider 的工作流程
 
 1. 從 `start_urls` 內的網址開始
 1. 準備 Request 物件
@@ -237,7 +273,13 @@ $ scrapy crawl pop_news_spider # Run the spider 'pop_news_spider'
 
 ## b5. Extracting data with XPath (and Scrapy shell)
 
+當然，只有單純的 HTML 程式碼似乎太過簡單了，我們可以在儲存之前先對 response 做一些處理， Scrapy 的好處是他已經幫你把 response 包成一個方便使用的物件，你只需要呼叫對應的方法就行。
+
 ### Scrapy shell
+
+爬網頁資料時，會遇到每個網頁都有不同的寫法跟結構，因此清洗網頁資料往往需要非常多的測試跟嘗試，在 Scrapy 裡應用了 Python interactive shell 的好處，讓我們可以在 shell 裡面快速地試驗處理方法。
+
+用 `scrapy shell <URL>` 可以開啟 Scrapy shell 並載入指定網頁的內容：
 
 ```bash
 $ scrapy shell http://udn.com/news/cate/6638
@@ -260,26 +302,32 @@ $ scrapy shell http://udn.com/news/cate/6638
 
 ### XPath 語法簡介
 
+在這邊我們要介紹的是 XPath 這一個 XML 結構文件的處理函式，透過 `.xpath(pattern)` 的方式，我們可以很方便地取得一個 XML 文件中任何一個地方的資料。
+
 - `response.xpath('//h2')`: 選擇「整個文件中」所有的 h2 節點 
 - `response.xpath('h2')`: 選擇「目前節點」下所有的 h2 節點 
 - `response.xpath('p/h2')`: 選擇是 p 節點 child 的 h2 節點（一層） 
 - `response.xpath('p//h2')`: 選擇是 p 節點 descendant 的 h2 節點（兩層以下） 
 - `response.xpath('p[@class="10"]')`: 選擇有屬性 class 且值為 10 的 p 節點 
 
+XPath 這個東西需要多多練習跟嘗試，才能夠理解怎麼樣的 pattern 能夠找到你想要的資料節點。
+
+[點我看更詳細的 XPath 語法](http://www.w3schools.com/xsl/xpath_syntax.asp)
+
 ### XPath 操作流程
 
+XPath 其實就是不斷的 try and error ，並沒有一個固定的寫法，不過首先你當然要研究一下你想抓的那個網頁，他的結構是怎麼樣的，透過瀏覽器提供的開發工具你可以快速地找到不同的資料節點是怎麼樣表達的：
+
 ![xpath_step1](xpath_step1.png)
+
+接著就是透過不斷地嘗試，找出能夠取得你想要的資料的 pattern ：
+
 ![xpath_step2](xpath_step2.png)
+
+接下來的這個範例是根據我們想要的網頁進行的嘗試，大家可以照著操作，並且自己修改 pattern 的樣式看看會有怎麼樣的輸出結果：
 
 ```python
 # In Scrapy shell
-
-# XPath 語法簡介
-response.xpath('//h2')    # 選擇「整個文件中」所有的 h2 節點
-response.xpath('h2')      # 選擇「目前節點」下所有的 h2 節點
-response.xpath('p/h2')    # 選擇是 p 節點 child 的 h2 節點（一層）
-response.xpath('p//h2')   # 選擇是 p 節點 descendant 的 h2 節點（兩層以下）
-response.xpath('p[@class="10"]')   # 選擇有屬性 class 且值為 10 的 p 節點
 
 # 過濾節點（根據我們要抓的網站）
 dt_list = response.xpath('//dt')   # 整個網站中所有的「dt」節點
@@ -328,11 +376,11 @@ for i in title_list:
 
 ```
 
-### XPath 文檔
-
-[點我](http://www.w3schools.com/xsl/xpath_syntax.asp)
-
 ## b6. Using your own Items
+
+你可以自己用檔案讀寫的方式把資料寫到檔案中（就像我們第一個例子），也可以透過 Scrapy 提供的 Item 把資料塞進預先留好的模型中，。
+
+一開始我們在 items.py 裡面定義了 NewsWebsiteItem ，我們可以把他 import 到 spider 中並從 parse 方法回傳：
 
 ```python
 from news_website.items import NewsWebsiteItem    # <-- 要記得 import 自己定義的 Item
@@ -346,11 +394,24 @@ class PopNewsSpider(scrapy.Spider):
         # 使用我們預先定義的 Items
 
         for i in a_list:
+
+            # 使用 Item 的方法很簡單，就是把資料一個一個塞進預先定義好的 fields 中
+
             new_item = NewsWebsiteItem()
             new_item['title'] = i.xpath('h2/text()')[0].extract()
             new_item['article_url'] = i.xpath('@href')[0].extract()
+
+            # 在這裡我們用了 yield 來製作 "generator"，你可以把它想成是一種節省
+            # 記憶體、並且可以用 forloop 不斷取出值的機器
+
             yield new_item
 ```
+
+> **關於 generator**
+> 這是 Python 裡面一個很重要的功能，深入了解可以看[這裡](http://stackoverflow.com/a/231855)，下面兩段話引用自上面的回答：
+> "Generators are iterators, but you can only iterate over them once. It's because they do not store all the values in memory, they generate the values on the fly"
+>
+> "To master yield, you must understand that when you call the function, the code you have written in the function body does not run. The function only returns the generator object, this is a bit tricky :-)"
 
 重新運行 `scrapy crawl pop_news_spider` 你會看到一些新的東西冒出來了：
 
@@ -372,10 +433,35 @@ $ scrapy crawl pop_news_spider
 ......
 ```
 
+> **為什麼會看到很多亂碼一樣的東西？**
+如果你記得第一週的 Unicode，這些看起來像亂碼的東西就是那些 Unicode 字串（注意字串的開頭有一個 u），如果你直接用 print 去印那串字符，就能看那些字符原本的字是什麼。
+> 
+> 當你去 print 一個 list 的時候，list 內部的 `__str__` 和 `__repr__`
+> 方法會針對你想 print 的 list 進行字串的轉換，保持 Unicode 原本的樣子是 Python2 的設計。
+>  
+> Scrapy 的輸出我目前沒有想到一個好的處理方法，但如果是自己的 unicode string list，可以透過下面這個方式來印出正確的字：
+> 
+> ```python
+> # Note this is Python2
+> a_unicode_list = [
+   u'/news/story/9446/1531013-\u65b0\u5317\u793e\u6703\u4f4f\u5b85-\u9707\u5f8c\u5065\u6aa2\u7121\u865e',
+   u'/news/story/6656/1530874-\u6c11\u9032\u9ee8\u5f70\u7e23\u9ee8\u90e8\u4e3b\u59d4\u6539\u9078-3\u5927\u5496\u89d2\u9010',
+> ]
+> print(a_unicode_list)  # 會看到 unicode 碼
+> print(', '.join(a_unicode_list))  # 輸出正常
+
+> # For Python3
+> print(a_unicode_list)  # 輸出正常
+> ```
+> 
+> 如果你用 Python3 去 print 一個含有 Unicode 字串的 list，他就會是正常的輸出。
+
 ## b7. Output extracted data as CSV or JSON format
 
+如果你有在 parse 方法裡面回傳 Item 物件，就可以使用 Scrapy 提供的方法來輸出：
+
 ```bash
-# 儲存成 CSV 格式（完美輸出）
+# 儲存成 CSV 格式（這個不會有 Unicode 問題）
 $ scrapy crawl pop_news_spider -o pop_news.csv
 
 # 儲存成 JSON 格式（注意，會有 Unicode 問題，請參考下面的解法）
@@ -384,7 +470,11 @@ $ scrapy crawl pop_news_spider -o pop_news.json
 
 ### 處理 JSON 的 Unicode 問題（自定義 JSON 輸出）
 
+如果你處理的文字是英數以外的文字（例如中文），那麼你在輸出成 JSON 的時候就會看到一堆 unicode 碼，這對我們之後的資料處理會造成一些不必要的困擾，在這邊我們來看怎麼樣輸出一個「正常」的 JSON 檔。
+
 [來源](http://stackoverflow.com/questions/9181214/scrapy-text-encoding)
+
+我們要使用 Scrapy 的 Item pipelines，這是 Scrapy 提供的另外一個資料處理的功能，在每次 parse 完之後你定義的 Item 會被送進 pipeline 裡面做另外的處理。
 
 在 `news_website/news_website/pipelines.py` 中：
 
@@ -394,10 +484,15 @@ import json
 import codecs
 
 class JsonWithEncodingPipeline(object):
+    """ 定義一個新的 Pipline
+    """
     def __init__(self):
+        # 開檔時要給予 encoding="utf-8" ，確定寫出去的地方能夠支援 unicode
+        # 這邊為了方便我們寫死了輸出的檔案名稱
         self.file = codecs.open("out.json", "wb", encoding="utf-8")
 
     def process_item(self, item, spider):
+        # 把 ensure_ascii 設定為 False，可以讓 JSON 的輸出不被替換成 \uxxxx
         line = json.dumps(dict(item), ensure_ascii=False) + "\n"
         self.file.write(line)
         return item
@@ -406,7 +501,7 @@ class JsonWithEncodingPipeline(object):
         self.file.close()
 ```
 
-在 `news_website/news_website/settings.py` 中：
+在定義完 pipeline 後我們要告訴 Scrapy 接上我們的 pipeline，在 `news_website/news_website/settings.py` 中：
 
 ```python
 # ......
@@ -418,11 +513,17 @@ ITEM_PIPELINES = {
 # ......
 ```
 
-引用自[官方文件 - Activating an Item Pipeline component](http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html#activating-an-item-pipeline-component)
+項目後面的數字是代表「先後順序」，來自 [官方文件 - Activating an Item Pipeline component](http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html#activating-an-item-pipeline-component) 的解釋：
 
 >The integer values you assign to classes in this setting determine the order in which they run: items go through from lower valued to higher valued classes. It’s customary to define these numbers in the 0-1000 range.
 
+接著重新運行你的爬蟲（用 `scrapy crawl pop_news_spider` 即可，不用加 `-o` 的 Scrapy 內建 JSON 輸出），就可以看到目錄下多了一個 `out.json`，並且是他本來的樣子。
+
+![json_encoding.png](json_encoding.png)
+
 ## b8. Full code of the spider
+
+完整的爬蟲程式可以在 GitHub 的資料夾裡找到，這裡放的只有 spider 的完整程式碼：
 
 ```python
 # -*- coding: utf-8 -*-
@@ -465,6 +566,8 @@ class PopNewsSpider(scrapy.Spider):
 
 ## b9. Summary
 
+到了這邊我們已經瀏覽過 Scrapy 最基本的爬蟲該怎麼樣寫，基本上會了這些你已經能夠處理大多數的情況，但我們的爬蟲現在只能爬我們指定給他的網頁，似乎還沒有這麼像「機器人」，在接下來我們會介紹 Scrapy 的另外一個爬蟲 `scrapy.CrawlSpider` ，這一隻爬蟲能夠自動去搜尋網頁中的連結，並且遞迴地爬取不同頁面的資料。
+
 <!--====  End of Scrapy: Elegent framework for data extraction  ====-->
 
 <!--====================================
@@ -475,9 +578,18 @@ class PopNewsSpider(scrapy.Spider):
 
 ## c1. CrawlSpider: Following links by defining rules
 
-[CrawlSpider 說明文件](http://scrapy.readthedocs.org/en/latest/topics/spiders.html#crawlspider)
+來自 [CrawlSpider 說明文件](http://scrapy.readthedocs.org/en/latest/topics/spiders.html#crawlspider)：
 
 >This is the most commonly used spider for crawling regular websites, as it provides a convenient mechanism for following links by defining a set of rules. 
+
+CrawlSpider 是基於基本爬蟲上再增加了自動搜索連結功能的爬蟲，他能夠透過預先定義好的規則來找尋一個 HTML 頁面上其他的連結，並且一層一層地把資料抓回來。
+
+使用 CrawlSpider 的方式非常簡單：
+
+1. import 需要的 CrawlSpider, Rule 和 LinkExtractor
+1. 繼承 scrapy.CrawlSpider
+1. 定義 rules
+1. 定義一個處理方法（名稱不能是 parse，否則可能會有不可預期的結果）
 
 ```python
 # -*- coding: utf-8 -*-
@@ -542,28 +654,17 @@ class PopNewsSpider(CrawlSpider):    # <-- 注意，繼承的類別為 CrawlSpid
 
 ### 分別處理 follow links 的內容（使用 XPath）
 
+接下來我們擴充 parse_item 的內容，來清洗頁面中的資料：
+
 ```python
-# -*- coding: utf-8 -*-
-
-import scrapy
-from scrapy.spiders import CrawlSpider, Rule
-from scrapy.linkextractors import LinkExtractor
-
-from news_website.items import NewsContentItem
-
 class PopNewsSpider(CrawlSpider):
     name = 'pop_news_crawlspider'
-    allowed_domains = ['udn.com']
-    start_urls = ['http://udn.com/news/cate/6638']
 
-    rules = (
-        Rule(LinkExtractor(allow=('news/story/.*', )), callback='parse_item'),
-    )
+    # ......
 
     def parse_item(self, response):
-        # Debug log
-
-        # self.logger.info('This is an item page: {url}'.format(url=response.url))
+        
+        # ......
 
         # 找出關鍵節點
 
@@ -594,6 +695,18 @@ class PopNewsSpider(CrawlSpider):
 
 ![crawlspider_result](crawlspider_result.png)
 
+## c2. Summary
+
+到這邊你已經可以透過 Python 抓取幾乎任何你想抓的網頁了。
+
+有一些細節礙於篇幅，我沒有在教學裡提到，例如 POST 的處理和防止被 banned 的微調， Scrapy 的文件檔已經有針對很多常見的問題做完整的解說，在這邊提供一些連結，當然如果你在 Scrapy 文件裡找不到解決的方法，你可以提出來我們討論討論。
+
+[Frequently Asked Questions](http://scrapy.readthedocs.org/en/latest/faq.html)
+
+[關於 POST 和使用者登入：Request usage examples](http://scrapy.readthedocs.org/en/latest/topics/request-response.html#request-usage-examples)
+
+[Avoiding getting banned](http://scrapy.readthedocs.org/en/latest/topics/practices.html#avoiding-getting-banned)
+
 <!--====  End of Something else  ====-->
 
 ---
@@ -613,11 +726,21 @@ Scrapy 裡面提供了 Item pipline 的機制，讓你在抓到 Item 之後可�
 
 [連結點我](http://doc.scrapy.org/en/latest/topics/item-pipeline.html)
 
+## 關於 \_\_repr\_\_ 和 \_\_str\_\_
+
+[連結點我](http://stackoverflow.com/a/2626364)
+
 ## NodeJS Web crawler/spider
 
 使用 DOM 的方式在 server 端爬資料還滿有趣的，比起 xpath ，對於熟悉 jQuery 的人來說應該會更容易上手，[請看這裡](https://github.com/sylvinus/node-crawler)。
 
 ## JavaScript 的問題
+
+使用 Scrapy 基本上沒辦法處理 JavaScript 的程式碼，你必須要透過其他的手段來處理這個問題。
+
+大多數時候我們在搜索我們想要抓的那一個網頁時，會仔細研究他們網頁的資料是「直接呈現」在網頁上還是「透過 JavaScript/AJAX」等方法動態新增出來的，如果是動態新增出來的通常可以找到他「新增東西的來源」，然後針對那個來源做資料爬蟲。
+
+如果你的目標實在用了太多的 JavaScript，你想要在爬蟲裡解析 JavaScript 程式碼的話，可以試試用上面提到的 NodeJS 實現的網路爬蟲，或者使用另外一種結合 Scrapy 和 Splash 的 [神秘做法](https://github.com/scrapinghub/scrapy-splash)，另外還可以參考 [這裡](https://blog.scrapinghub.com/2015/03/02/handling-javascript-in-scrapy-with-splash/)。
 
 ## 你用 Python 做过什么有趣的数据挖掘项目？
 
