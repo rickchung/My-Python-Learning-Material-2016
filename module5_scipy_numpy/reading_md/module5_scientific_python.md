@@ -99,7 +99,6 @@
     * [d1.5. scipy.optimize 的最佳化解法](#d1.5.-scipy.optimize-的最佳化解法)
     * [d1.6. scipy.stats 內的線性回歸](#d1.6.-scipy.stats-內的線性回歸)
     * [d1.7. Summary](#d1.7.-summary)
-  * [d2. 路邊範例演練：土炮推薦算法](#d2.-路邊範例演練：土炮推薦算法)
 * [E. 延伸閱讀](#e.-延伸閱讀)
 
 -----
