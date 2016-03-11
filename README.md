@@ -1,4 +1,14 @@
-# 2016 Python Tutorial Material Draft
+# Python 系列教學課程教材 2016.1 ~ 2016.3
+
+## Introduction
+
+針對我們系上同學所開設的 Python 教學課程，主要包含五個章節，涵蓋了基本的 Python 語言特性以及實際的應用案例：
+
+1. Python basics
+2. More Python and teamworks
+3. Python With Django: MVC and Web Application
+4. Python Scrapy: Web Crawler and Data Processing
+5. Python And Data Analysis: IPython, NumPy, SciPy and Data Visualisation
 
 # Module 1 - Python Basics
 
@@ -60,12 +70,17 @@
 >
 >成員Ｂ：......我看我來教教你物件導向要怎麼用吧 ◡ ヽ(`Д´)ﾉ ┻━┻ 
 
-- Class and OOP
-- File I/O
-- Exception
-- Module and PIP
-- This is not Python -- Git and GitHub
-- Exercise: How to write program with other team members? Concept and instructions
+## 課程內容
+
+- 物件導向分析、設計以及實作的概念
+- 如何透過物件導向的方式設計程式
+- Python 的物件導向實現方法
+- Python 的檔案輸入輸出
+- Python 的例外處理（Exception）
+- Python 單元測試的基礎
+- Python 的 module 概念與管理工具 pip
+- 如何透過工具自動產生 Python 的文件
+- Git 與 GitHub 的概念
 
 # Module 3 - Python With Django: MVC and Web Application
 
@@ -79,13 +94,15 @@
 > 
 > ...... ( ´Д`)y━･~~
 
-- Overview
-- Relation between Django, Apache, PHP and MySQL 
-- Framework, MVC and web application
-- Template, display information on the Web Page.
-- View, dynamic Web content and application logic
-- Model, abstract database, ORM and a convenient way to access your data
-- Exercise: A simple Web application by Django
+## 課程內容
+
+- 瞭解網路應用程式的概念
+- 使用 Django 開發一套功能完整的網路應用程式
+- MVC 架構概念
+- Django Model
+- Django Template language
+- Django View
+- Django 表單
 
 # Module 4 - Python Scrapy: Web Crawler and Data Processing
 
@@ -123,13 +140,11 @@
 >
 >你：ᶘ ᵒᴥᵒᶅ......
 
-- Overview
-- Web spider: Concept
-- XMLparser
-- Data cleaning and regular expression
-- Dealing with Javascript: Using NodeJS
-- Recursive parsing
-- Exercise: Web crawler with Scrapy
+## 課程內容
+
+- 了解網路爬蟲的基礎概念
+- 了解如何使用 Python Scrapy 來撰寫網路爬蟲
+- 如何綜合使用不同的工具來幫助我們爬取資料
 
 # Module 5 - Python And Data Analysis: IPython, NumPy, SciPy and Data Visualisation
 
@@ -149,12 +164,19 @@
 >
 >你：......好喔
 
-- Overview
-- Python
-- Regular expression
-- Data Visualisation
-- NumPy and SciPy
-- Exercise: Data processing, cleaning, visualising with Python
+## 課程內容
+
+- 如何運用 numpy 操作數據
+    - 數據向量化和向量計算
+    - 基本的數據操作
+- 簡單的敘述統計
+    - 資料圖像化，幫助瞭解資料分佈
+    - 資料數據分析（平均、中位、標準差...）
+    - 相對數量的轉換（z-score、四分位數）
+- 一些 SciPy 提供的科學運算套件
+- 實例：房價回歸預測
+
+------
 
 # Optional - Web Communication With JSON
 
