@@ -1,5 +1,7 @@
 # Python 系列教學課程教材 2016.1 ~ 2016.3
 
+![cover.png](cover.png)
+
 ## Introduction
 
 針對我們系上同學所開設的 Python 教學課程，主要包含五個章節，涵蓋了基本的 Python 語言特性以及實際的應用案例：
