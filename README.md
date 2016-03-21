@@ -150,6 +150,8 @@
 
 # Module 5 - Python And Data Analysis: IPython, NumPy, SciPy and Data Visualisation
 
+![lingre_demo.gif](lingre_demo.gif)
+
 >老闆：上次你給我做的那個網站還不錯啊
 >
 >你：還可以啦 ( ´ ▽ ` )
